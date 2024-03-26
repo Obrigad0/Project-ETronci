@@ -13,6 +13,7 @@ CREATE TABLE customer (
 
 CREATE TABLE seller (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    piva VARCHAR(11) NOT NULL,
     name String NOT NULL,
     description TEXT,   
     mail String NOT NULL,
@@ -46,7 +47,7 @@ CREATE TABLE product (
 CREATE TABLE warehouse (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name String NOT NULL,
-    address String NOT NULL,
+    address String NOT NULL
 
 );
 
