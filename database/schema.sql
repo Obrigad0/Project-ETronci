@@ -1,5 +1,5 @@
 CREATE DOMAIN String AS VARCHAR(255);
-
+CREATE DOMAIN PartitaIva AS VARCHAR(11);
 CREATE TYPE statusOrder AS ENUM ('not shipped', 'shipped', 'delivered');
 
 
@@ -13,7 +13,7 @@ CREATE TABLE customer (
 
 CREATE TABLE seller (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    piva VARCHAR(11) NOT NULL,
+    piva PartitaIva NOT NULL,
     name String NOT NULL,
     description TEXT,   
     mail String NOT NULL,
