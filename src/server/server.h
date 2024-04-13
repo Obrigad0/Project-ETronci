@@ -35,7 +35,7 @@
 class Server {
     public:
         //Costruttore della classe Server
-        Server(const char* server_id, int server_port, const char* redis_ip, int redis_port, std::string req_types[], int num_req_types);
+        Server(const char* id, int port, const char* redis_ip, int redis_port, std::string client_requests[], int req_num);
 
         // Valori dati in input al costruttore
             // const char* server_id: id del server creato (stringa!!! Es: serverCustomer)
