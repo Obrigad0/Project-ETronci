@@ -59,7 +59,7 @@ class Server {
 
         // Chiamabili solo da dentro il file Server
         // Tutte le funzioni utili al funzionamento del server
-        void connectNewClient(); // aggiunta di un nuovo client alla connessione  (ex add_new_clients())
+        void addNewClients(); // aggiunta di un nuovo client alla connessione  (ex add_new_clients())
         void receiveClientData(int i);  // gestione ricezione dati dal client (i file descriptor) (ex receive)
         void close_connections(); // lo posso levare??? TO DO
         void sendClientResponse(int client_id, std::string out_str); //gestisce invio dati al client (ex send_response)
