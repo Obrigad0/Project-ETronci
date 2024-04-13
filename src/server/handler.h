@@ -24,7 +24,7 @@
 /* Classes */
 class Handler{
     public:
-        Handler(const char* redis_ip, int redis_port, std::string req_types[], int num_req_types);
+        Handler(const char* redis_ip, int redis_port, std::string client_requests[], int req_num);
 
         bool send_to_managers(int client_id, std::string cmd);
         bool read_from_managers(std::string* out_str_ptr, int* client_id_ptr);
