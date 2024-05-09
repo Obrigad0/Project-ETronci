@@ -72,7 +72,7 @@ Server::~Server(){  // TO DO
             // solo se disconnection_instant è attualmente NULL
             sprintf(query, "UPDATE Client SET disconnection_instant = CURRENT_TIMESTAMP WHERE server_name = \'%s\' AND file_descriptor = %d AND disconnection_instant IS NULL", server, i);
 
-            // Esegue la query sul database utilizzando il metodo RunQuery dell'oggetto db
+            // Esegue la query sul database utilizzando il meTO DO RunQuery dell'oggetto db
             // Il secondo parametro false indica che la query non restituirà risultati (è un UPDATE, non un SELECT)
             resp = db.RunQuery(query, false);
 
@@ -183,6 +183,30 @@ void Server::run(){
 
 }
 
+void Server::chiudiConnessione() {
+
+    int i;
+    char query[QUERY_LEN];
+
+// Itera su tutti i file descriptor fino a max_fd
+    for (i=0; i <= max_fd; ++i){
+        // Verifica se il file descriptor i è presente in current_set
+        if (FD_ISSET(i, &current_set)) {
+            // Costruisce una query SQL per aggiornare la tabella Client
+            // Imposta disconnection_instant al timestamp corrente
+            // per il client identificato da server_name e file_descriptor
+            // solo se disconnection_instant è attualmente NULL
+            sprintf(query, "UPDATE Client SET disconnection_instant = CURRENT_TIMESTAMP WHERE server_name = \'%s\' AND file_descriptor = %d AND disconnection_instant IS NULL", server, i); //TO DO CAMBIARE QUESTTE QUERY PER ADATARLE AL DB
+
+            // Esegue la query sul database utilizzando il meTO DO RunQuery dell'oggetto db
+            // Il secondo parametro false indica che la query non restituirà risultati (è un UPDATE, non un SELECT)
+            resp = db.RunQuery(query, false);
+
+            // Chiude il file descriptor i
+            close(i);
+        }
+    }
+}
 
 void Server::addNewClients(){
     // questo loop ascolta costantemente per nuove connessioni in entrata e le gestisce quando arrivano, 
@@ -225,35 +249,87 @@ void Server::addNewClients(){
 }
 
 
-void Server::sendClientResponse(int client_id, std::string out_str){ // TO DO
+void Server::sendClientResponse(int idClient, std::string msg){
 
+    char query[QUERY_LEN];
+    size_t index = msg.find('\n'); // Cerca la posizione del carattere di nuova riga '\n' all'interno della stringa msg
+    // size_t è un tipo di dato intero senza segno utilizzato per rappresentare dimensioni e indici
+
+    std::string primaRiga = msg.substr(0, index); // Estrae la sottostringa di msg dall'inizio fino all'indice trovato (escluso)
+    // Questa sottostringa rappresenta la prima riga del messaggio
+
+    sprintf(query, "WITH max_client_conn AS (SELECT max(connection_instant) AS instant FROM Client WHERE server_name = \'%s\' AND file_descriptor = %d), "
+                   "     last_request AS (SELECT MAX(c.request_instant) AS instant FROM Communication AS c, max_client_conn AS m WHERE c.client_server_name = \'%s\' AND c.client_file_descriptor = %d AND c.client_connection_instant = m.instant) "
+                   "UPDATE Communication SET response_status = \'%s\', response_instant = CURRENT_TIMESTAMP "
+                   "WHERE client_server_name = \'%s\' AND client_file_descriptor = %d AND client_connection_instant = (SELECT instant FROM max_client_conn) AND request_instant = (SELECT instant FROM last_request)",
+            server, idClient, server, idClient, primaRiga.c_str(), server, idClient);
+
+    // TO DO: bisogna modificare questa query per adattarla al nostro db
+    resp = db.RunQuery(query, false);
+
+    // Verifica se il risultato della query indica un errore
+    if (PQresultStatus(resp) != PGRES_COMMAND_OK && PQresultStatus(resp) != PGRES_TUPLES_OK) {
+        send(idClient, "SERVER_ERROR", 12, 0); // Invia un messaggio di errore al client
+        return;
+    }
+
+    std::cout << "\nClient id: " << idClient << " - Response: " << msg << std::endl; // Stampa l'ID del client e il messaggio di risposta
+    send(idClient, msg.c_str(), msg.length(), 0); // Invia il messaggio di risposta al client
 }
 
 void Server::receiveClientData(int i){
 
-}
+    std::string msg; // Variabile di tipo stringa per memorizzare il messaggio
+    char buffer[100]; // Array di caratteri per ricevere i dati dal socket
+    int nb; // Variabile intera per memorizzare il numero di byte ricevuti
+    int stacca = FALSE; // Flag booleano per indicare la disconnessione del client
+    char query[QUERY_LEN]; // Array di caratteri per memorizzare la query SQL
 
-void Server::chiudiConnessione() {
+    do {
+        bzero(buffer, sizeof(buffer)); // Inizializza il buffer a zero
+        nb = recv(i, buffer, sizeof(buffer) - 1, 0); // Riceve i dati dal socket 'i' e li memorizza nel buffer
 
-    int i;
-    char query[QUERY_LEN];
-
-// Itera su tutti i file descriptor fino a max_fd
-    for (i=0; i <= max_fd; ++i){
-        // Verifica se il file descriptor i è presente in current_set
-        if (FD_ISSET(i, &current_set)) {
-            // Costruisce una query SQL per aggiornare la tabella Client
-            // Imposta disconnection_instant al timestamp corrente
-            // per il client identificato da server_name e file_descriptor
-            // solo se disconnection_instant è attualmente NULL
-            sprintf(query, "UPDATE Client SET disconnection_instant = CURRENT_TIMESTAMP WHERE server_name = \'%s\' AND file_descriptor = %d AND disconnection_instant IS NULL", server, i); //TO DO CAMBIARE QUESTTE QUERY PER ADATARLE AL DB
-
-            // Esegue la query sul database utilizzando il metodo RunQuery dell'oggetto db
-            // Il secondo parametro false indica che la query non restituirà risultati (è un UPDATE, non un SELECT)
-            resp = db.RunQuery(query, false);
-
-            // Chiude il file descriptor i
-            close(i);
+        if (nb < 0) {
+            if (errno != EWOULDBLOCK) {
+                stacca = TRUE; // Imposta il flag 'stacca' a TRUE se si verifica un errore diverso da EWOULDBLOCK
+            }
+            break;
         }
+        if (nb == 0) {
+            stacca = TRUE; // Imposta il flag 'stacca' a TRUE se la connessione è stata chiusa
+            break;
+        }
+        msg.append(buffer); // Aggiunge i dati ricevuti alla stringa 'msg'
+    } while (TRUE);
+
+    if (stacca) {
+        // Aggiorna il timestamp di disconnessione del client nel database
+        sprintf(query, "UPDATE Client SET disconnection_instant = CURRENT_TIMESTAMP WHERE server_name = \'%s\' AND file_descriptor = %d AND disconnection_instant IS NULL", server, i);
+        // TO DO: modificare questa query per adattarla al nostro db
+        resp = db.RunQuery(query, false); // Esegue la query sul database
+        close(i); // Chiude il socket 'i'
+        FD_CLR(i, &current_set); // Rimuove il descrittore di file 'i' dal set corrente
+        if (i == max_fd) {
+            while (FD_ISSET(max_fd, &current_set) == FALSE)
+                max_fd -= 1; // Aggiorna il valore di 'max_fd' se 'i' era il descrittore di file massimo
+        }
+        return;
     }
+
+// Inserisce una nuova comunicazione nel database
+    sprintf(query, "INSERT INTO Communication(request, request_instant, client_server_name, client_file_descriptor, client_connection_instant)"
+                   "VALUES (\'%s\', CURRENT_TIMESTAMP, \'%s\', %d, (SELECT connection_instant FROM Client WHERE disconnection_instant IS NULL and server_name = \'%s\' and file_descriptor = %d))", msg.c_str(), server, i, server, i);
+// TO DO: modificare questa query per adattarla al nostro db
+    resp = db.RunQuery(query, false); // Esegue la query sul database
+    if (PQresultStatus(resp) != PGRES_COMMAND_OK && PQresultStatus(resp) != PGRES_TUPLES_OK) {
+        send(i, "SERVER_ERROR", 12, 0); // Invia un messaggio di errore al client in caso di errore nella query
+        return;
+    }
+
+    if (!handler->send_to_managers(i, msg)) {
+        sendClientResponse(i, "BAD_REQUEST"); // Invia una risposta "BAD_REQUEST" al client se l'invio ai gestori fallisce
+    }
+
 }
+
+
