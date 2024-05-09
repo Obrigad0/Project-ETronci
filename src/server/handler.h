@@ -1,8 +1,6 @@
 #ifndef handler_h
 #define handler_h
 
-/* System libraries */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
@@ -18,7 +16,7 @@
 /* Local libraries */
 
  // #include "../../lib/con2redis/src/con2redis.h" TO DO 
-// #include "../../lib/con2db/pgsql.h" TO DO 
+#include "../../service/database/dbConnection.h"
 // #include "../../utils/src/const.h" TO DO 
 
 /* Classes */

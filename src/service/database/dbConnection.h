@@ -1,13 +1,15 @@
-//#ifndef pgsql_h
-//#define pgsql_h
+#ifndef pgsql_h
+#define pgsql_h
 
 #include <stdio.h>
 #include <stdlib.h>
 
-//extern "C"
-//{
-#include <libpq-fe.h>  // libreria libpq, utilizzata per la connessione al db Postgres
-//}
+
+#include <postgresql/libpq-fe.h>  // libreria libpq, utilizzata per la connessione al db Postgres
+// per farlo funzionare ricordate di installare questa libreria.
+// il comando e':  sudo apt-get install libpq-dev
+// potrebbe funzionare anche cosi: #include <libpq-fe.h>
+
 
 
 class DbConnection {
@@ -19,27 +21,20 @@ private:
 
 public:
 
-  //Funzione che ci connette al database
-  connectToDatabase(char *hostname, char *port, char *username, char *password, char *dbname);  //  PGconn*  connect2db(); 
-
-  /* use this for commands returning no data, e.g. INSERT, UPDATE */  // vecchia :)
-  //PGresult* ExecSQLcmd(char *sqlcmd); // vecchia :)
+  //Costruttore
+  DbConnection(const char *hostname,const char *port,const char *username,const char *password,const char *dbname); //void, dopo controllare TO DO?
 
   // usata per eseguire Query che non ritornano dati. INSERT, UPDATE e DELETE
-  PGresult* RunActionQuery(char *query); //TO DO 
-
-
-  /* use this for commands returning data, e.g. SELECT */ // vecchia :)
-  // PGresult* ExecSQLtuples(char *sqlcmd); // vecchia :)
+  PGresult* RunActionQuery(char *query); //ex ExecSQLcmd(char *sqlcmd); TO DO L.C.
 
   // usata per eseguire Query che ritornano dati. SELECT
-  PGresult* RunDataQuery(char *query); //TO DO
+  PGresult* RunDataQuery(char *query); //TO DO ex ExecSQLtuples(char *sqlcmd); TO DO L.C.
 
-
-  PGresult* RunQuery(char* query, bool is_tuples); // TO DO,  MICA HO CAPITO QUESTI PER COSA USANO STA FUNZIONE // vecchia
+  // runQuery e' la funzione principale per l'esecuzione delle query, chiama, a seconda del valore di moreValue, o RunActionQuery o RunDataQuery
+  PGresult* RunQuery(char* query, bool moreValue);
 
   //Funzione che ci disconnette dal database
-  disconnectFromDatabase();
+  void disconnectFromDatabase();
   
 };
 

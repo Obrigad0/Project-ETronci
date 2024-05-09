@@ -17,35 +17,34 @@
 #include <vector>
 #include <sstream>
 #include <signal.h>
-
 #include "handler.h"
-// #include "../../lib/con2db/pgsql.h" TO DO 
+
+#include "../../service/database/dbConnection.h"
 
 #define MAX_CLIENT 100
 #define TRUE 1 
 #define FALSE 0 
 
-// TO DO da cambiare cosi non sembra copiato??? (nomi costanti e valori)
+// TO DO CAPIRE SE QUESTE COSTANTI SONO UTILIZZATE IN ALTRE PARTI (OLTRE ALLA FUNZIONE ALLA FINE DI QUESTO CODICE [ho sostituito le costanti con i valori]
 #define POSTGRESQL_SERVER "localhost"
 #define POSTGRESQL_PORT "5432"
 #define POSTGRESQL_USER "handler"
 #define POSTGRESQL_PSW "handler"
 #define POSTGRESQL_DBNAME "logdb"
-/// 
+// se non presenti da altre parti levare!!! TO DO
+
 class Server {
     public:
         //Costruttore della classe Server
         Server(const char* id, int port, const char* redis_ip, int redis_port, std::string client_requests[], int req_num);
 
         // Valori dati in input al costruttore
-            // const char* server_id: id del server creato (stringa!!! Es: serverCustomer)
-            // int server_port: porta di ascolto del server
+            // const char* id: id del server creato (stringa!!! Es: serverCustomer)
+            // int port: porta di ascolto del server
             // const char* redis_ip: ip server redis, che in questo caso e' locale quindi sara' "localhost"
             // int redis_port: porta di ascolto del server Redis inserito
-            // std::string req_types[]: sono l'insieme delle richieste effettuabili dal client, es come in wasa lista dei nomi delle funzioni
-            // int num_req_types: e' il numero di queste funzioni
-        // TO DO: modifichiamo i nomi delle variabili cosi da rende meno evidente il tutto?
-
+            // client_requests[]: sono l'insieme delle richieste effettuabili dal client, es come in wasa lista dei nomi delle funzioni
+            // int req_num: e' il numero di queste funzioni
 
         // run NON viene chiamato dal costruttore. Dopo aver istanziato un oggetto di tipo Server, va fatto server.run()
         // run avvia il server
@@ -59,22 +58,20 @@ class Server {
 
         // Chiamabili solo da dentro il file Server
         // Tutte le funzioni utili al funzionamento del server
-        void addNewClients(); // aggiunta di un nuovo client alla connessione  (ex add_new_clients())
-        void receiveClientData(int i);  // gestione ricezione dati dal client (i file descriptor) (ex receive)
-        void close_connections(); // lo posso levare??? TO DO
-        void sendClientResponse(int client_id, std::string out_str); //gestisce invio dati al client (ex send_response)
-        
+        void addNewClients(); // aggiunta di un nuovo client alla connessione  (ex add_new_clients() TO DO LEVARE DAL COMMENTO)
+        void receiveClientData(int i);  // gestione ricezione dati dal client (i file descriptor) (ex receive TO DO LEVARE DAL COMMENTO)
+        void sendClientResponse(int client_id, std::string out_str); //gestisce invio dati al client (ex send_response TO DO LEVARE DAL COMMENTO)
+        void chiudiConnessione();
+         // Variabili globali utilizzate per non portarsi dietro sempre le stesse informazioni
 
-
-        // Variabili globali utilizzate per non portarsi dietro sempre le stesse informazioni
-
+        DbConnection db = DbConnection("localhost", "5432", "handler", "handler", "logdb"); // ex log_db TO DO L.C.
+        PGresult *resp; // ex query_res TO DO L.C.
         const char* server; 
-        int socket_server;
-        int socket_port;
-        fd_set current_set; 
-        int max_fd; 
+        int socket_server; // ex sockfd TO DO L.C.
+        int socket_port; // ex sockPort TO DO L.C.
+        fd_set current_set;  // capire cosa fa TO DO
+        int max_fd;  // capire cosa fa TO DO
         Handler* handler; //TO DO
 
-        // Con2DB log_db = Con2DB(POSTGRESQL_SERVER, POSTGRESQL_PORT, POSTGRESQL_USER, POSTGRESQL_PSW, POSTGRESQL_DBNAME); TO DO
-        // PGresult *query_res; TO DO
+
 };
