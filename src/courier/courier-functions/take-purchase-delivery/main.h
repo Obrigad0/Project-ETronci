@@ -16,12 +16,12 @@
 
 /* Local libraries */
 
-//#include "../../../../lib/con2db/pgsql.h"
-//#include "../../../../lib/con2redis/src/con2redis.h"
+#include "../../../../lib/con2db/pgsql.h"
+#include "../../../../lib/con2redis/src/con2redis.h"
 
-//#include "../../../../classes/src/delivery_purchase.h"
-//#include "../../../../utils/src/utils.h"
-//#include "../../../../utils/src/const.h"
+#include "../../../../classes/src/delivery_purchase.h"
+#include "../../../../utils/src/utils.h"
+#include "../../../../utils/src/const.h"
 
 /* Constants */
 
