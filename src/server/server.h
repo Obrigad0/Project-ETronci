@@ -17,8 +17,8 @@
 #include <vector>
 #include <sstream>
 #include <signal.h>
-#include "handler.h"
 
+#include "handler.h"
 #include "../../service/database/dbConnection.h"
 
 #define MAX_CLIENT 100

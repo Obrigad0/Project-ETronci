@@ -13,26 +13,31 @@
 #include <cerrno>
 #include <iostream>
 
-/* Local libraries */
 
  // #include "../../lib/con2redis/src/con2redis.h" TO DO 
 #include "../../service/database/dbConnection.h"
-// #include "../../utils/src/const.h" TO DO 
+#include "../../shared/standard.h" // TO DO
 
 /* Classes */
 class Handler{
     public:
-        Handler(const char* redis_ip, int redis_port, std::string client_requests[], int req_num);
+        //Costruttore Handler
+        Handler(const char* redip, int redport, std::string client_requests[], int req_num);
+        // Valori dati in input al costruttore
+            //redip: ip server redis
+            //redport: porta server redis
+            // client_requests[]: sono l'insieme delle richieste effettuabili dal client
+            // int req_num: e' il numero di queste funzioni
 
-        bool send_to_managers(int client_id, std::string cmd);
-        bool read_from_managers(std::string* out_str_ptr, int* client_id_ptr);
+        bool sendToFunctions(int idClient, std::string msg);
+        bool readFromFunctions(std::string* outstr, int* idClientpnt);
 
     private:
-        // redisContext *c2r; TO DO 
+        //redisContext *c2r; //TO DO
         std::string* types;
         int num_types;
         
-        void init_streams();
+        void startStream(); //ex init_stream()
 };
 
 #endif
