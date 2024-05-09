@@ -326,6 +326,7 @@ void Server::receiveClientData(int i){
         return;
     }
 
+
     if (!handler->send_to_managers(i, msg)) {
         sendClientResponse(i, "BAD_REQUEST"); // Invia una risposta "BAD_REQUEST" al client se l'invio ai gestori fallisce
     }
