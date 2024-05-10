@@ -14,9 +14,9 @@
 #include <iostream>
 
 
- // #include "../../lib/con2redis/src/con2redis.h" TO DO 
+#include "../../service/redis/redisConnection.h"
 #include "../../service/database/dbConnection.h"
-#include "../../shared/standard.h" // TO DO
+#include "../../shared/standard.h"
 
 /* Classes */
 class Handler{
@@ -29,15 +29,15 @@ class Handler{
             // client_requests[]: sono l'insieme delle richieste effettuabili dal client
             // int req_num: e' il numero di queste funzioni
 
-        bool sendToFunctions(int idClient, std::string msg);
-        bool readFromFunctions(std::string* outstr, int* idClientpnt);
+        bool sendToFunctions(int idClient, std::string msg); //TO DO L.C. func ex send_to_managers
+        bool readFromFunctions(std::string* outstr, int* idClientpnt);  //TO DO L.C. func ex func ex send_to_managers
 
     private:
-        //redisContext *c2r; //TO DO
+        redisContext *c2r;
         std::string* types;
         int num_types;
         
-        void startStream(); //ex init_stream()
+        void startStream();
 };
 
 #endif

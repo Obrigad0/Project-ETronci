@@ -2,15 +2,15 @@
 
 Handler::Handler(const char* redip, int redport, std::string client_requests[], int req_num){
 
-    // c2r = redisConnect(redip, redport); // redConn oppure conn2redis al posto di c2r ?
+    c2r = redisConnect(redip, redport);
     types = client_requests;
     num_types = req_num;
     startStream();
 
 }
 
-bool Handler::sendToFunctions(int idClient, std::string msg){ // TO DO
-    // redisReply* reply;    // TO DO
+bool Handler::sendToFunctions(int idClient, std::string msg){
+    redisReply* reply;
     bool isValid; // Variabile booleana per indicare se il tipo di richiesta è valido
     int i;
 
@@ -46,16 +46,21 @@ bool Handler::sendToFunctions(int idClient, std::string msg){ // TO DO
 
     std::cout << "\n" << redis_cmd << std::endl;
 
-    // reply = RedisCommand(c2r, redis_cmd.c_str());  // TO DO
-    // assertReply(c2r, reply);  // TO DO
+    reply = RedisCommand(c2r, redis_cmd.c_str());
+    assertReply(c2r, reply);
     return true;
 
 }
 
-bool Handler::readFromFunctions(std::string* outstr, int* idClient){ // TO DO
+bool Handler::readFromFunctions(std::string* outstr, int* idClient){
 
-    // redisReply* reply;
-    char msg_id[MESSAGE_ID_LEN], tmp_buffer[30], client_id[VALUE_LEN], resp_status[30], num_rows[30], row[30];
+    redisReply* reply;
+    char msg_id[MSGIDSIZE];
+    char tmp_buffer[30];
+    char client_id[VALUESIZE];
+    char resp_status[30];
+    char num_rows[30];
+    char row[30];
     int i, j, num_rows_int, curr_row, row_columns;
     std::string tmp_str;
     std::string out_str;

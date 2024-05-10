@@ -28,7 +28,6 @@ Server::Server(const char* id, int port, const char* redis_ip, int redis_port, s
     int flags = fcntl(socket_server,F_GETFL, 0);
     flags |= O_NONBLOCK;
 
-    //controllo errore se il socket non e' in modalita' non bloccante? TO DO
 
     //configurazione server
 
@@ -60,7 +59,7 @@ Server::~Server(){  // TO DO
     // chiusura connessione
 
     int i;
-    char query[QUERY_LEN];
+    char query[QUERYSIZE];
 
 // Itera su tutti i file descriptor fino a max_fd
     for (i=0; i <= max_fd; ++i){
@@ -83,6 +82,12 @@ Server::~Server(){  // TO DO
 }
 
 
+void gestioneSegnaleSpegnimento(int s){
+    //spegne il server solo se arrivano i segnali specifici: SIGINT e SIGTERM
+    stop_server = TRUE;
+    std::cout << "\n The Server is shutting down..." << std::endl;
+}
+
 void Server::run(){
 
     struct sigaction sigHandler; //struttura sigaction per gestire i segnali
@@ -94,10 +99,10 @@ void Server::run(){
     struct timeval timeout;// specificare un timeout
     int idClient; // Dichiara una variabile intera client_id per memorizzare l'ID del client
     bool response;
-    char query[QUERY_LEN];
+    char query[QUERYSIZE];
     std::string respTocli; // risposta da inviare al client
 
-    sigHandler.sa_handler = handle_signals;
+    sigHandler.sa_handler = gestioneSegnaleSpegnimento;
     sigemptyset(&sigHandler.sa_mask);
     sigHandler.sa_flags = 0;
     // Imposta i campi della struttura signalHandler:
@@ -108,7 +113,7 @@ void Server::run(){
     sigaction(SIGINT, &sigHandler, NULL);
     sigaction(SIGTERM, &sigHandler, NULL);
     // Imposta la gestione dei segnali SIGINT e SIGTERM utilizzando sigaction e signalHandler
-
+    // ADESSO QUANDO IL SERVER RICEVE UNO DEI DUE SEGNALI SI SPEGNE.
     numreq = 0;
     FD_ZERO(&current_set);
     max_fd = socket_server;
@@ -163,7 +168,7 @@ void Server::run(){
             respTocli = "";
             idClient = -1;
 
-            response = handler->read_from_managers(&respTocli, &idClient);
+            response = handler->readFromFunctions(&respTocli, &idClient);
 
             if(response){
                 sendClientResponse(idClient, respTocli);
@@ -186,7 +191,7 @@ void Server::run(){
 void Server::chiudiConnessione() {
 
     int i;
-    char query[QUERY_LEN];
+    char query[QUERYSIZE];
 
 // Itera su tutti i file descriptor fino a max_fd
     for (i=0; i <= max_fd; ++i){
@@ -213,16 +218,15 @@ void Server::addNewClients(){
     // registrando i nuovi client nel database e aggiungendo i loro file descriptor al set attivo del server. 
     // Una volta che non ci sono più connessioni in arrivo, il loop termina.
     int newClient;
-    char query[QUERY_LEN]; //query len si trova in una cartella contente un file con tutte costanti. TO DO
+    char query[QUERYSIZE];
 
-    // nicolas ho rimesso il do while perche senno' non funzionava. Meglio ladri che poveri. TO DO LEVARE COMMENTO
     do{
         newClient = accept(socket_server, NULL, NULL); // accetta nuove connessioni in entrata
         
         if (newClient < 0) { // c'è stato un errore, stacca stacca
 
             if (errno != EWOULDBLOCK) {
-                std::cout << "\nErrore, Client non accettato\n" << std::endl;  // ho messo \n alla fine invece che all'inizio, è piu carino? fla:Molto carino TO DO L.C.
+                std::cout << "\nErrore, Client non accettato\n" << std::endl;
                 stop_server = TRUE;
             }
             break;
@@ -251,7 +255,7 @@ void Server::addNewClients(){
 
 void Server::sendClientResponse(int idClient, std::string msg){
 
-    char query[QUERY_LEN];
+    char query[QUERYSIZE];
     size_t index = msg.find('\n'); // Cerca la posizione del carattere di nuova riga '\n' all'interno della stringa msg
     // size_t è un tipo di dato intero senza segno utilizzato per rappresentare dimensioni e indici
 
@@ -283,7 +287,7 @@ void Server::receiveClientData(int i){
     char buffer[100]; // Array di caratteri per ricevere i dati dal socket
     int nb; // Variabile intera per memorizzare il numero di byte ricevuti
     int stacca = FALSE; // Flag booleano per indicare la disconnessione del client
-    char query[QUERY_LEN]; // Array di caratteri per memorizzare la query SQL
+    char query[QUERYSIZE]; // Array di caratteri per memorizzare la query SQL
 
     do {
         bzero(buffer, sizeof(buffer)); // Inizializza il buffer a zero
@@ -327,7 +331,7 @@ void Server::receiveClientData(int i){
     }
 
 
-    if (!handler->send_to_managers(i, msg)) {
+    if (!handler->sendToFunctions(i, msg)) {
         sendClientResponse(i, "BAD_REQUEST"); // Invia una risposta "BAD_REQUEST" al client se l'invio ai gestori fallisce
     }
 

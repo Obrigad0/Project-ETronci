@@ -8,7 +8,7 @@ DbConnection::DbConnection(const char *hostname, const char *port, const char *u
     sprintf(info, "host=%s port=%s user=%s password=%s dbname=%s",hostname,port,username,password,dbname);
 
     // connette l'utente al database
-    dbConnection = PQconnectdb(info); // capire dove definisce la variabile conn che sembra abbastanza importante
+    dbConnection = PQconnectdb(info);
 
     if (PQstatus(dbConnection) != CONNECTION_OK) {
         fprintf(stderr, "connectToDatabase(%s): Errore nella connessione al database!!: %s\n",
@@ -20,7 +20,7 @@ DbConnection::DbConnection(const char *hostname, const char *port, const char *u
 
 }
 
-void DbConnection::disconnectFromDatabase() { // TO DO, sistemare, alcune variabili non so dove le definisce.
+void DbConnection::disconnectFromDatabase() {
 
     PQfinish(dbConnection);
     dbConnection = NULL;
