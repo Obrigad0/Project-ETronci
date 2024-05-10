@@ -1,14 +1,15 @@
 #include "main.h"
 
 int main() {
-    // per comunicare con il db redis
+    // connessioni con i db
     redisContext *redConn; // cambiata da c2r a redConn
     redisReply *redReply; // cambiata da reply a redPly
 
     // per comunicare con il db
     PGresult *query_res;
 
-    char response[RESPONSE_LEN], msg_id[MESSAGE_ID_LEN], first_key[KEY_LEN], client_id[VALUE_LEN];
+    // eliminato response[RESPONSE_LEN]
+    std::string msg_id[MESSAGE_ID_LEN], first_key[KEY_LEN], client_id[VALUE_LEN];
     std::string query;
 
     // connessione ai 2 database
@@ -21,10 +22,9 @@ int main() {
 
         // lettura dallo stream redis
         redReply = RedisCommand(redConn, "XREADGROUP GROUP main courier BLOCK 0 COUNT 1 STREAMS %s >", READ_STREAM);
-
         assertReply(redConn, redReply);
 
-        if (ReadNumStreams(redReply) == 0) { // a che serve ??
+        if (ReadNumStreams(redReply) == 0) {
             continue;
         } 
 
@@ -43,14 +43,14 @@ int main() {
 
         // Convert request
         try{ // si prova a convertire il messaggio dello stream in un oggetto
-            delivery = DeliveryPurchase::from_stream(redReply, 0, 0);
+            delivery = Delivery::from_stream(redReply, 0, 0);
         }
         catch(std::invalid_argument exp){
             send_response_status(redConn, WRITE_STREAM, client_id, "BAD_REQUEST", msg_id, 0);
             continue;
         }
 
-        // prendo la stringa query associata alla delivery purchase. (query sql)
+        // prendo la stringa query associata alla delivery. (query sql)
         query = delivery->to_insert_query();
         
         query_res = db.RunQuery((char *) query.c_str(), false);

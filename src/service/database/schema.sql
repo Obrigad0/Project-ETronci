@@ -60,8 +60,20 @@ CREATE TABLE order (
     status statusOrder DEFAULT 'not shipped',
 
     FOREIGN KEY (user) REFERENCES user (id) ON DELETE CASCADE,
-    FOREIGN KEY (courier) REFERENCES courier (id) ON DELETE CASCADE,
     FOREIGN KEY (product) REFERENCES product (id) ON DELETE CASCADE
+
+);
+
+CREATE TABLE delivery (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    order INTEGER NOT NULL,
+    courier INTEGER NOT NULL,
+    --deliveryTime INTEGER NOT NULL,  -- giorni per la consegna. ha senso metterlo ?
+    date DATETIME NOT NULL,
+    status statusOrder DEFAULT 'not shipped',
+
+    FOREIGN KEY (order) REFERENCES order (id) ON DELETE CASCADE,
+    FOREIGN KEY (courier) REFERENCES courier (id) ON DELETE CASCADE,
 
 );
 
@@ -82,7 +94,6 @@ CREATE TABLE addedProduct (
     FOREIGN KEY (wishlist) REFERENCES wishlist (id) ON DELETE CASCADE
 
 );
-
 
 CREATE TABLE review (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -1,8 +1,6 @@
 #ifndef main_h
 #define main_h
 
-/* System libraries */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -14,16 +12,16 @@
 #include <cassert>
 #include <cerrno>
 
-/* Local libraries */
+// librerie locali
 
-#include "../../../../lib/con2db/pgsql.h"
-#include "../../../../lib/con2redis/src/con2redis.h"
+#include "../../../service/database/dbConnection.h"
+#include "../../../service/redis/redisConnection.h"
 
-#include "../../../../classes/src/delivery_purchase.h"
+#include "../../../classes/delivery.h"
 #include "../../../../utils/src/utils.h"
 #include "../../../../utils/src/const.h"
 
-/* Constants */
+// costanti
 
 #define READ_STREAM "take-purchase-delivery-in"
 #define WRITE_STREAM "take-purchase-delivery-out"

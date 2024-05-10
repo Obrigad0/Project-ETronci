@@ -1,34 +1,31 @@
-#ifndef delivery_purchase_h
-#define delivery_purchase_h
-
-/* System libraries */
+#ifndef delivery_h
+#define delivery_h
 
 #include <string.h>
 #include <stdexcept>
 
-/* Local libraries */
+// librerie locali
 
-#include "../../lib/con2redis/con2redis.h"
+#include "../service/redis/redisConnection.h"
 #include "../../utils/src/const.h"
 #include "../../utils/src/utils.h"
 
-/* Classes */
-
-class DeliveryPurchase {
+class Delivery {
     public:
-        char *delivery_code = NULL;
-        char *time = NULL;
+        // eliminata la variabile time
+        char *id = NULL; // cambiato nome delivery_code a id
         char *courier = NULL;
-        char *purchase = NULL;
-        char *state = NULL;
+        char *order = NULL;
+        std::string status = NULL; // cambiato nome da state a status
 
-        DeliveryPurchase(char* purchase_id, char* del_code, char* courier_id);
-        DeliveryPurchase(char* del_code, char* timestamp, char* update_state, int);
+        Delivery(char* order_id, char* delivery_code, char* courier_id);
+        Delivery(char* delivery_code, std::string update_status); // costruttore per aggiornare lo stato dell'ordine
 
-        ~DeliveryPurchase();
+        ~Delivery();
 
-        static DeliveryPurchase* from_stream(redisReply* reply, int stream_num, int msg_num);
-        static DeliveryPurchase* update_from_stream(redisReply* reply, int stream_num, int msg_num);
+        static Delivery* from_stream(redisReply* reply, int stream_num, int msg_num);
+        static Delivery* update_from_stream(redisReply* reply, int stream_num, int msg_num);
+
         std::string to_insert_query();
         std::string to_update_query();
 };
