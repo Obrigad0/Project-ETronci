@@ -12,13 +12,12 @@ SRC = $(wildcard *.cpp)
 #OBJ = $(wildcard $(ODIR)/*.o)
 OBJ = $(patsubst %.cpp, $(ODIR)/%.o, $(SRC))
 
-DBConn_OBJ = $(wildcard ../../service/database/*.o)
-redConn_OBJ = $(wildcard ../../service/redis/*.o)
-classes_OBJ = $(wildcard ../../classes/*.o)
+DBConn_OBJ = $(wildcard ../../../service/database/*.o)
+redConn_OBJ = $(wildcard ../../../service/redis/*.o)
+classes_OBJ = $(wildcard ../../../classes/*.o)
 shared_OBJ = $(wildcard ../../../shared/*.o)
-server_OBJ = $(wildcard ../../server/*.o)
 
-all: create_dirs con2db con2redis classes utils $(BDIR)/main
+all: create_dirs DBConn redConn classes shared $(BDIR)/main
 
 
 create_dirs:
@@ -26,25 +25,22 @@ create_dirs:
 	mkdir -p $(ODIR)
 
 DBConn:
-	$(MAKE) -C ../../service/database
+	$(MAKE) -C ../../../service/database
 
 redConn:
-	$(MAKE) -C ../../service/redis
+	$(MAKE) -C ../../../service/redis
 
 classes:
-	$(MAKE) -C ../../classes
+	$(MAKE) -C ../../../classes
 
 shared:
-	$(MAKE) -C ../../shared
-
-server:
-	$(MAKE) -C ../../server
+	$(MAKE) -C ../../../shared
 
 $(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(BDIR)/main: $(OBJ) $(DEPS)
-	$(CC) -o $@ $(OBJ) $(DBConn_OBJ) $(redConn_OBJ) $(classes_OBJ) $(shared_OBJ) $(server_OBJ) $(CFLAGS)
+	$(CC) -o $@ $(OBJ) $(DBConn_OBJ) $(redConn_OBJ) $(classes_OBJ) $(shared_OBJ) $(CFLAGS)
 
 .PHONY: clean
 

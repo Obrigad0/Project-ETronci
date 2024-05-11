@@ -9,7 +9,7 @@ int main() {
     PGresult *query_res;
 
     // eliminato response[RESPONSE_LEN]
-    std::string msg_id[MESSAGE_ID_LEN], first_key[KEY_LEN], client_id[VALUE_LEN];
+    std::string msg_id[MSGIDSIZE], redis_key[KEY_LEN], client_id[VALUESIZE];
     std::string query;
 
     // connessione ai 2 database
@@ -32,11 +32,11 @@ int main() {
         // Only one message in stream --> msg_num = 0
         ReadStreamNumMsgID(redReply, 0, 0, msg_id);
 
-        // Check if the first key/value pair is the client_id
-        ReadStreamMsgVal(redReply, 0, 0, 0, first_key);    // Index of first field of msg = 0
-        ReadStreamMsgVal(redReply, 0, 0, 1, client_id);    // Index of second field of msg = 1
+        // controllo la coppia chiave-valore in redis
+        ReadStreamMsgVal(redReply, 0, 0, 0, redis_key);
+        ReadStreamMsgVal(redReply, 0, 0, 1, client_id);
 
-        if(strcmp(first_key, "client_id")){ // si controlla che l'id cliente sia giusto (me pare)
+        if(strcmp(redis_key, "client_id")){ 
             send_response_status(redConn, WRITE_STREAM, client_id, "BAD_REQUEST", msg_id, 0);
             continue;
         }
@@ -50,7 +50,7 @@ int main() {
             continue;
         }
 
-        // prendo la stringa query associata alla delivery. (query sql)
+        // prendo la stringa query associata alla delivery
         query = delivery->to_insert_query();
         
         query_res = db.RunQuery((char *) query.c_str(), false);

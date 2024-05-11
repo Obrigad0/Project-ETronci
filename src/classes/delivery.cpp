@@ -27,15 +27,15 @@ Delivery::~Delivery(){
     free(status);
 }
 
+// sostituito PARAMETERS_LEN con KEY_LEN per key
+
 Delivery* Delivery::from_stream(redisReply* reply, int stream_num, int msg_num) {
-    char key[PARAMETERS_LEN];
+    char key[KEY_LEN];
     char value[PARAMETERS_LEN];
 
     char delivery_code[PARAMETERS_LEN];
     char courier_id[PARAMETERS_LEN];
     char order_id[PARAMETERS_LEN];
-
-    char read_fields = 0b000;
 
     // itero attraverso i campi del messaggio nel flusso Redis. Ogni campo è rappresentato da una coppia chiave-valore.
     for (int field = 2; field < ReadStreamMsgNumVal(reply, stream_num, msg_num); field += 2) {
@@ -61,14 +61,12 @@ Delivery* Delivery::from_stream(redisReply* reply, int stream_num, int msg_num) 
 
 // aggiorna lo stato della spedizione
 Delivery* Delivery::update_from_stream(redisReply* reply, int stream_num, int msg_num) {
-    char key[PARAMETERS_LEN];
+    char key[KEY_LEN];
     char value[PARAMETERS_LEN];
 
     char delivery_code[PARAMETERS_LEN];
     char timestamp[PARAMETERS_LEN];
     char update_status[PARAMETERS_LEN];
-
-    char read_fields = 0b0000;
 
     for (int field = 2; field < ReadStreamMsgNumVal(reply, stream_num, msg_num); field += 2) {
         ReadStreamMsgVal(reply, stream_num, msg_num, field, key);

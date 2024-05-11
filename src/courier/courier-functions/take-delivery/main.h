@@ -16,15 +16,13 @@
 
 #include "../../../service/database/dbConnection.h"
 #include "../../../service/redis/redisConnection.h"
-
 #include "../../../classes/delivery.h"
-#include "../../../../utils/src/utils.h"
-#include "../../../../utils/src/const.h"
+#include "../shared/standard.h"
 
 // costanti
-
-#define READ_STREAM "take-purchase-delivery-in"
-#define WRITE_STREAM "take-purchase-delivery-out"
+// cambiato lo stream da take-purchase-delivery-in a take-delivery-in
+#define READ_STREAM "take-delivery-in"
+#define WRITE_STREAM "take-delivery-out"
 
 #define REDIS_SERVER "localhost"
 #define REDIS_PORT 6379
