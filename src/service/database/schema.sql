@@ -53,13 +53,14 @@ CREATE TABLE warehouse (
 
 CREATE TABLE order (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user INTEGER NOT NULL,
+    customer INTEGER NOT NULL,
     product INTEGER NOT NULL,
     quantity INTEGER NOT NULL,
     date DATETIME NOT NULL,
-    status statusOrder DEFAULT 'not shipped',
+    zip_code String NOT NULL,
+    address String NOT NULL,
 
-    FOREIGN KEY (user) REFERENCES user (id) ON DELETE CASCADE,
+    FOREIGN KEY (customer) REFERENCES customer (id) ON DELETE CASCADE,
     FOREIGN KEY (product) REFERENCES product (id) ON DELETE CASCADE
 
 );

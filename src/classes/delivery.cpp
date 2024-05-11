@@ -65,7 +65,6 @@ Delivery* Delivery::update_from_stream(redisReply* reply, int stream_num, int ms
     char value[PARAMETERS_LEN];
 
     char delivery_code[PARAMETERS_LEN];
-    char timestamp[PARAMETERS_LEN];
     char update_status[PARAMETERS_LEN];
 
     for (int field = 2; field < ReadStreamMsgNumVal(reply, stream_num, msg_num); field += 2) {

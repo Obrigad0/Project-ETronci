@@ -1,5 +1,5 @@
-#ifndef purchase_h
-#define purchase_h
+#ifndef order_h
+#define order_h
 
 #include <string.h>
 #include <stdexcept>
@@ -12,27 +12,25 @@
 #include "../shared/standard.h"
 
 
-class Purchase{
+class Order{
     public:
+        // eliminato zip_code, street e street_number in favore di address
+        // eliminato fare e card, aggiunto product e quantity
         char *id = NULL;
-        char *purchase_instant = NULL;
-        char *fare = NULL;
-        char *cancel_instant = NULL;
+        char *date = NULL;
+        char *product = NULL;
+        char *quantity = NULL;
         char *customer = NULL;
-        char *card = NULL;
         char *zip_code = NULL;
-        char *street = NULL;
-        char *street_number = NULL;
+        char *address = NULL;
 
-        Purchase(char* purchase_instant_in, char* purchase_fare, char* purchase_customer, char* purchase_card, char* purchase_zip_code, char* purchase_street, char* purchase_street_number);
+        Order(char* order_date, char* product_id, char* product_quantity, char* order_customer, char* order_zip_code, char* order_address);
 
-        Purchase(char* purchase_id, char* purchase_instant_in, char* purchase_fare, char* purchase_cancel_instant, char* purchase_customer, char* purchase_card, char* purchase_zip_code, char* purchase_street, char* purchase_street_number);
+        Order(char* order_id, char* order_date, char* product_id, char* product_quantity, char* order_customer, char* order_zip_code, char* order_address);
 
-        Purchase(char* purchase_id, char* purchase_instant_in, char* purchase_fare, char* purchase_customer, char* purchase_card, char* purchase_zip_code, char* purchase_street, char* purchase_street_number);
+        ~Order();
 
-        ~Purchase();
-
-        static Purchase* from_stream(redisReply* reply, int stream_num, int msg_num);
+        static Order* from_stream(redisReply* reply, int stream_num, int msg_num);
 };
 
 #endif
