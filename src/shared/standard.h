@@ -1,3 +1,5 @@
+#ifndef standard_h
+#define standard_h
 
 // MODIFICARE QUESTI VALORI PER CAMBIARE I RISULTATI DESIDERATI
 //TO DO!!
@@ -10,3 +12,4 @@
 #define SPACE_REDIS_STRING "##" //SPACE_REDIS_STRING
 #define SPACE " " //SPACE
 
+#endif

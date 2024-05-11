@@ -33,39 +33,40 @@ int main() {
             continue;
         }
 
-        sprintf(query, "SELECT id, order_instant, fare, customer, card, zip_code, street, street_number FROM Order WHERE NOT EXISTS(SELECT * FROM AssignedDelivery WHERE order = id)");
+        // order potrebbe dare problemi nelle query?
+        sprintf(query, "SELECT * FROM order WHERE id NOT IN (SELECT order FROM delivery)");
 
         query_res = db.RunQuery(query, true);
-
         if (PQresultStatus(query_res) != PGRES_COMMAND_OK && PQresultStatus(query_res) != PGRES_TUPLES_OK) {
             send_response_status(redConn, WRITE_STREAM, client_id, "DB_ERROR", msg_id, 0);
             continue;
         }
 
+        // compongo la lista di tutti gli ordini disponibili per il corriere
         std::list<Order*> orders;
 
         for(int row = 0; row < PQntuples(query_res); row++) {
-            Order * order;
+            Order *order;
             order = new Order(PQgetvalue(query_res, row, PQfnumber(query_res, "id")),
-                                    PQgetvalue(query_res, row, PQfnumber(query_res, "order_instant")),
-                                    PQgetvalue(query_res, row, PQfnumber(query_res, "fare")),
-                                    PQgetvalue(query_res, row, PQfnumber(query_res, "customer")),
-                                    PQgetvalue(query_res, row, PQfnumber(query_res, "card")),
-                                    PQgetvalue(query_res, row, PQfnumber(query_res, "zip_code")),
-                                    PQgetvalue(query_res, row, PQfnumber(query_res, "street")),
-                                    PQgetvalue(query_res, row, PQfnumber(query_res, "street_number")));
+                                PQgetvalue(query_res, row, PQfnumber(query_res, "date")),
+                                PQgetvalue(query_res, row, PQfnumber(query_res, "product")),
+                                PQgetvalue(query_res, row, PQfnumber(query_res, "quantity")),
+                                PQgetvalue(query_res, row, PQfnumber(query_res, "customer")),
+                                PQgetvalue(query_res, row, PQfnumber(query_res, "zip_code")),
+                                PQgetvalue(query_res, row, PQfnumber(query_res, "address")));
             
             orders.push_back(order);
         }
 
         send_response_status(redConn, WRITE_STREAM, client_id, "REQUEST_SUCCESS", msg_id, PQntuples(query_res));
 
-        for(int row = 0; row<PQntuples(query_res); row++) {
+        for(int row = 0; row < PQntuples(query_res); row++) {
             Order* order = orders.front();
 
             orders.pop_front();
 
-            redReply = RedisCommand(redConn, "XADD %s * row %d order_id %s order_instant %s order_fare %s order_customer %s order_card %s order_zip_code %s order_street %s order_street_number %s", WRITE_STREAM, row, order->id, order->order_instant, order->fare, order->customer, order->card, order->zip_code, order->street, order->street_number);
+            redReply = RedisCommand(redConn, "XADD %s * row %d order_id %s order_date %s product_id %s product_quantity %s order_customer %s order_zip_code %s order_address %s", 
+                                        WRITE_STREAM, row, order->id, order->date, order->product, order->quantity, order->customer, order->zip_code, order->address);
             assertReplyType(redConn, redReply, REDIS_REPLY_STRING);
             freeReplyObject(redReply);
 

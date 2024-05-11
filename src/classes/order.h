@@ -14,7 +14,7 @@
 
 class Order{
     public:
-        // eliminato zip_code, street e street_number in favore di address
+        // eliminato street e street_number in favore di address
         // eliminato fare e card, aggiunto product e quantity
         char *id = NULL;
         char *date = NULL;
