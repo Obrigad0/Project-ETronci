@@ -20,8 +20,8 @@ int main() {
             continue;
         } 
 
-        // Only one stream --> stream_num = 0
-        // Only one message in stream --> msg_num = 0
+        // stream_num = 0  indica un singolo stream
+        // msg_num = 0     indica un solo messaggio nello stream
         ReadStreamNumMsgID(redReply, 0, 0, msg_id);
 
         // controllo la coppia chiave-valore in redis

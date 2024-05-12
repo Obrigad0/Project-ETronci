@@ -26,6 +26,8 @@
 #define FALSE 0 
 
 // TO DO CAPIRE SE QUESTE COSTANTI SONO UTILIZZATE IN ALTRE PARTI (OLTRE ALLA FUNZIONE ALLA FINE DI QUESTO CODICE [ho sostituito le costanti con i valori]
+// nota (nicolas): ogni main.h delle funzioni dei tre attori principali ha delle costanti simili, magari possiamo mettere in un file shared tutti quelli che
+// hanno i valori uguali (se non sbaglio solo le port cambiano)
 #define POSTGRESQL_SERVER "localhost"
 #define POSTGRESQL_PORT "5432"
 #define POSTGRESQL_USER "handler"

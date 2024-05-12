@@ -6,7 +6,7 @@ int main(){
     // TO DO
     // cambiare i nomi ai metodi dei corrieri
     // rimosso update-refund-request
-    std::string req_types[num_types] = {"take-delivery", "update-assigned-delivery", "view-pending-orders"};
+    std::string req_types[num_types] = {"take-delivery", "update-delivery-status", "view-pending-orders"};
 
     Server server(SERVER_ID, server_port, REDIS_SERVER, REDIS_PORT, req_types, num_types);
 

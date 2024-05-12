@@ -94,7 +94,12 @@ std::string Delivery::to_insert_query() {
     std::string str_id = str(id);
     std::string str_courier = str(courier);
     std::string str_order = str(order);
-    std::string current_date = get_current_timestamp_as_string();
+
+    auto current_timestamp = std::chrono::system_clock::now();
+    std::time_t current_time = std::chrono::system_clock::to_time_t(current_timestamp);
+    std::string current_date = std::ctime(&current_time);
+
+    //std::string current_date = get_current_timestamp_as_string();
 
     return "INSERT INTO delivery (id, order, courier, date) VALUES (\'" + str_id + "\', \'" + str_order + "\', \'" + str_courier + "\', \'" + current_date + "\')";
 }

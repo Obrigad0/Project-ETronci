@@ -99,6 +99,9 @@
     "sstream": "cpp",
     "streambuf": "cpp",
     "typeinfo": "cpp",
-    "chrono": "cpp"
+    "chrono": "cpp",
+    "ctime": "cpp",
+    "list": "cpp",
+    "ratio": "cpp"
   }
 }
