@@ -69,7 +69,6 @@ CREATE TABLE delivery (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     order INTEGER NOT NULL,
     courier INTEGER NOT NULL,
-    --deliveryTime INTEGER NOT NULL,  -- giorni per la consegna. ha senso metterlo ?
     date DATETIME NOT NULL,
     status statusOrder DEFAULT 'not shipped',
 
@@ -80,8 +79,8 @@ CREATE TABLE delivery (
 
 CREATE TABLE wishList (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user INTEGER NOT NULL,
-    FOREIGN KEY (user) REFERENCES user (id) ON DELETE CASCADE
+    customer INTEGER NOT NULL,
+    FOREIGN KEY (customer) REFERENCES customer (id) ON DELETE CASCADE
 
 );
 
@@ -98,13 +97,13 @@ CREATE TABLE addedProduct (
 
 CREATE TABLE review (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user INTEGER NOT NULL,
+    customer INTEGER NOT NULL,
     product INTEGER NOT NULL,
     stars INTEGER NOT NULL,
-    description TEXT,
+    comment TEXT,
 
     FOREIGN KEY (product) REFERENCES product (id) ON DELETE CASCADE,
-    FOREIGN KEY (user) REFERENCES user (id) ON DELETE CASCADE,
+    FOREIGN KEY (customer) REFERENCES customer (id) ON DELETE CASCADE,
     check(stars >= 1 AND stars <= 5)
 
 );

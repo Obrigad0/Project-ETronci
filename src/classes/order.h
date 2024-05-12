@@ -12,7 +12,7 @@
 #include "../shared/standard.h"
 
 
-class Order{
+class Order {
     public:
         // eliminato street e street_number in favore di address
         // eliminato fare e card, aggiunto product e quantity

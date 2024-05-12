@@ -14,17 +14,15 @@
 
 // librerie locali
 
-#include "../../../../lib/con2db/pgsql.h"
-#include "../../../../lib/con2redis/src/con2redis.h"
-
-#include "../../../../classes/src/rating.h"
-#include "../../../../utils/src/utils.h"
-#include "../../../../utils/src/const.h"
+#include "../../../service/database/dbConnection.h"
+#include "../../../service/redis/redisConnection.h"
+#include "../../../classes/review.h"
+#include "../shared/standard.h"
 
 // costanti
 
-#define READ_STREAM "add-rating-in"
-#define WRITE_STREAM "add-rating-out"
+#define READ_STREAM "review-order-in"
+#define WRITE_STREAM "review-order-out"
 
 #define REDIS_SERVER "localhost"
 #define REDIS_PORT 6379
