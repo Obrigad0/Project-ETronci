@@ -30,20 +30,20 @@ CREATE TABLE courier(
     FOREIGN KEY (warehouse) REFERENCES warehouse (id) ON DELETE CASCADE 
 );
 
+-- ho rimosso quantity e il check che sia maggiore di zero, meno problemi per noi
 CREATE TABLE product (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name String NOT NULL,
     description TEXT NOT NULL,
-    quantity INTEGER NOT NULL,
     price_tag FLOAT NOT NULL,
     seller INTEGER NOT NULL,
     warehouse INTEGER NOT NULL,
 
     FOREIGN KEY (seller) REFERENCES seller (id) ON DELETE CASCADE,
     FOREIGN KEY (warehouse) REFERENCES warehouse (id) ON DELETE CASCADE,
-    check(quantity >= 0)
 );
 
+-- TO DO aggiungere la warehouse alla delivery dei corrieri
 CREATE TABLE warehouse (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name String NOT NULL,

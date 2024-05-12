@@ -1,5 +1,5 @@
-#ifndef card_h
-#define card_h
+#ifndef review_h
+#define review_h
 
 #include <string.h>
 #include <stdexcept>
@@ -11,18 +11,20 @@
 
 // class
 
-class Rating {
+class Review {
+
     public:
-        char *product = NULL;
         char *customer = NULL;
+        char *product = NULL;
         char *stars = NULL;
-        std::string *comment = NULL;
+        char *comment = NULL;
 
-        Rating(char* rating_product, char* rating_customer, char* rating_stars, std::string comment);
+        Review(char* review_customer, char* review_product, char* review_stars, char* review_comment);
 
-        ~Rating();
+        ~Review();
 
-        static Rating* from_stream(redisReply* reply, int stream_num, int msg_num);
+        static Review* from_stream(redisReply* reply, int stream_num, int msg_num);
+        
 };
 
 #endif

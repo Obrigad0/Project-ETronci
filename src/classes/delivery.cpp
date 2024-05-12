@@ -8,10 +8,10 @@ Delivery::Delivery(char* order_id, char* delivery_code, char* courier_id) {
     strcpy(id, delivery_code);
     strcpy(order, order_id);
     strcpy(courier, courier_id);
-    status = "not shipped"
+    status = "not shipped";
 }
 
-Delivery::Delivery(char* delivery_code, std::string update_status) {
+Delivery::Delivery(char* delivery_code, char* update_status) {
     id = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
     status = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
 

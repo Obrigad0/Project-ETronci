@@ -13,6 +13,7 @@
 
 
 class Order {
+
     public:
         // eliminato street e street_number in favore di address
         // eliminato fare e card, aggiunto product e quantity
@@ -32,5 +33,6 @@ class Order {
 
         static Order* from_stream(redisReply* reply, int stream_num, int msg_num);
 };
+
 
 #endif

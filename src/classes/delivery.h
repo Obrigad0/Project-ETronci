@@ -10,15 +10,16 @@
 #include "../shared/standard.h"
 
 class Delivery {
+
     public:
         // eliminata la variabile time
         char *id = NULL; // cambiato nome delivery_code a id
         char *courier = NULL;
         char *order = NULL;
-        std::string *status = NULL; // cambiato nome da state a status
+        char *status = NULL; // cambiato nome da state a status
 
         Delivery(char* order_id, char* delivery_code, char* courier_id);
-        Delivery(char* delivery_code, std::string update_status); // costruttore per aggiornare lo stato dell'ordine
+        Delivery(char* delivery_code, char* update_status); // costruttore per aggiornare lo stato dell'ordine
 
         ~Delivery();
 
@@ -27,6 +28,7 @@ class Delivery {
 
         std::string to_insert_query();
         std::string to_update_query();
+        
 };
 
 #endif

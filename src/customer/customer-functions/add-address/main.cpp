@@ -11,7 +11,7 @@ int main() {
     Con2DB db(POSTGRESQL_SERVER, POSTGRESQL_PORT, POSTGRESQL_USER, POSTGRESQL_PSW, POSTGRESQL_DBNAME);
     c2r = redisConnect(REDIS_SERVER, REDIS_PORT);
 
-    Review* review;
+    Address* address;
 
     while(true) {
 
@@ -29,7 +29,7 @@ int main() {
 
         // controllo la coppia chiave-valore in redis
         ReadStreamMsgVal(reply, 0, 0, 0, first_key);
-        ReadStreamMsgVal(reply, 0, 0, 1, client_id);
+        ReadStreamMsgVal(reply, 0, 0, 1, client_id); 
 
         if(strcmp(first_key, "client_id")){
             send_response_status(c2r, WRITE_STREAM, client_id, "BAD_REQUEST", msg_id, 0);
@@ -38,14 +38,16 @@ int main() {
 
         // Convert request
         try{
-            review = Review::from_stream(reply, 0, 0);
+            address = Address::from_stream(reply, 0, 0);
         }
         catch(std::invalid_argument exp){
             send_response_status(c2r, WRITE_STREAM, client_id, "BAD_REQUEST", msg_id, 0);
             continue;
         }
 
-        sprintf(query, "INSERT INTO review (customer, product, stars, comment) VALUES (\'%s\', \'%s\', %s, \'%s\')", review->customer, review->product, review->stars, review->comment);
+        std::string full_address = std::string(address->street) + " " + std::string(address->street_number) + " " + std::string(address->zip_code) 
+                                        + " " + std::string(address->city)
+        sprintf(query, "INSERT INTO customer (address) VALUES (\'%s\') WHERE id = " + std::string(client_id), full_address);
 
         query_res = db.RunQuery(query, false);
 
