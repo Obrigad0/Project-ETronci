@@ -18,8 +18,10 @@ class Product {
         char *name = NULL;
         char *description = NULL;
         char *price_tag = NULL;
+        char *seller = NULL;
+        char *warehouse = NULL;
 
-        Product(char* product_id, char* product_name, char* product_description, char* product_price);
+        Product(char* product_id, char* product_name, char* product_description, char* product_price, char* product_seller, char* product_warehouse);
         Product(char* product_id, char* product_description);
 
         ~Product();

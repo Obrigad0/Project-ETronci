@@ -1,46 +1,46 @@
 #include "main.h"
 
 int main() {
-    redisContext *c2r;
-    redisReply *reply;
+    redisContext *redConn;
+    redisReply *redReply;
 
     PGresult *query_res;
     
     char query[QUERYSIZE], response[RESPONSE_LEN], msg_id[MSGIDSIZE], first_key[KEY_LEN], client_id[VALUESIZE];
 
     Con2DB db(POSTGRESQL_SERVER, POSTGRESQL_PORT, POSTGRESQL_USER, POSTGRESQL_PSW, POSTGRESQL_DBNAME);
-    c2r = redisConnect(REDIS_SERVER, REDIS_PORT);
+    redConn = redisConnect(REDIS_SERVER, REDIS_PORT);
 
     Customer* customer;
 
     while(true) {
-        reply = RedisCommand(c2r, "XREADGROUP GROUP main customer BLOCK 0 COUNT 1 STREAMS %s >", READ_STREAM);
+        redReply = RedisCommand(redConn, "XREADGROUP GROUP main customer BLOCK 0 COUNT 1 STREAMS %s >", READ_STREAM);
 
-        assertReply(c2r, reply);
+        assertReply(redConn, redReply);
 
-        if (ReadNumStreams(reply) == 0) {
+        if (ReadNumStreams(redReply) == 0) {
             continue;
         } 
 
         // stream_num = 0  indica un singolo stream
         // msg_num = 0     indica un solo messaggio nello stream
-        ReadStreamNumMsgID(reply, 0, 0, msg_id);
+        ReadStreamNumMsgID(redReply, 0, 0, msg_id);
 
         // controllo la coppia chiave-valore in redis
-        ReadStreamMsgVal(reply, 0, 0, 0, first_key);
-        ReadStreamMsgVal(reply, 0, 0, 1, client_id); 
+        ReadStreamMsgVal(redReply, 0, 0, 0, first_key);
+        ReadStreamMsgVal(redReply, 0, 0, 1, client_id); 
 
         if(strcmp(first_key, "client_id")){
-            send_response_status(c2r, WRITE_STREAM, client_id, "BAD_REQUEST", msg_id, 0);
+            send_response_status(redConn, WRITE_STREAM, client_id, "BAD_REQUEST", msg_id, 0);
             continue;
         }
         
         // Convert request
         try{
-            customer = Customer::from_stream(reply, 0, 0);
+            customer = Customer::from_stream(redReply, 0, 0);
         }
         catch(std::invalid_argument exp){
-            send_response_status(c2r, WRITE_STREAM, client_id, "BAD_REQUEST", msg_id, 0);
+            send_response_status(redConn, WRITE_STREAM, client_id, "BAD_REQUEST", msg_id, 0);
             continue;
         }
 
@@ -49,11 +49,11 @@ int main() {
 
         query_res = db.RunQuery(query, false);
         if (PQresultStatus(query_res) != PGRES_COMMAND_OK && PQresultStatus(query_res) != PGRES_TUPLES_OK) {
-            send_response_status(c2r, WRITE_STREAM, client_id, "DB_ERROR", msg_id, 0);
+            send_response_status(redConn, WRITE_STREAM, client_id, "DB_ERROR", msg_id, 0);
             continue;
         }
 
-        send_response_status(c2r, WRITE_STREAM, client_id, "REQUEST_SUCCESS", msg_id, 0);
+        send_response_status(redConn, WRITE_STREAM, client_id, "REQUEST_SUCCESS", msg_id, 0);
     }
 
     db.finish();
