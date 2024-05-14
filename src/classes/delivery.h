@@ -14,12 +14,12 @@ class Delivery {
     public:
         // eliminata la variabile time
         char *id = NULL; // cambiato nome delivery_code a id
-        char *courier = NULL;
         char *order = NULL;
+        char *courier = NULL;
         char *status = NULL; // cambiato nome da state a status
 
-        Delivery(char* order_id, char* delivery_code, char* courier_id);
-        Delivery(char* delivery_code, char* update_status); // costruttore per aggiornare lo stato dell'ordine
+        Delivery(char* delivery_id, char* order_id, char* courier_id);
+        Delivery(char* delivery_id, char* update_status); // costruttore per aggiornare lo stato dell'ordine
 
         ~Delivery();
 

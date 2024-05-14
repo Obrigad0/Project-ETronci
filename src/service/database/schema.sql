@@ -13,9 +13,9 @@ CREATE TABLE customer (
 
 CREATE TABLE seller (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    piva PartitaIva NOT NULL,
     name String NOT NULL,
-    description TEXT,   
+    piva PartitaIva NOT NULL,
+    description TEXT,
     mail String NOT NULL,
     password String NOT NULL
 );
@@ -43,7 +43,7 @@ CREATE TABLE product (
     FOREIGN KEY (warehouse) REFERENCES warehouse (id) ON DELETE CASCADE,
 );
 
--- TO DO aggiungere la warehouse alla delivery dei corrieri
+-- TO DO aggiungere la warehouse alla delivery dei corrieri (oppure far finta di niente e toglierla dal db?)
 CREATE TABLE warehouse (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name String NOT NULL,

@@ -103,6 +103,7 @@
     "ctime": "cpp",
     "list": "cpp",
     "ratio": "cpp",
-    "cassert": "cpp"
+    "cassert": "cpp",
+    "cerrno": "cpp"
   }
 }
