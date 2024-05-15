@@ -1,5 +1,5 @@
-#ifndef order_h
-#define order_h
+#ifndef ordered_product_h
+#define ordered_product_h
 
 #include <string.h>
 #include <stdexcept>
@@ -12,7 +12,7 @@
 #include "../shared/standard.h"
 
 
-class Order {
+class OrderedProduct {
 
     public:
         // eliminato street e street_number in favore di address
@@ -25,13 +25,13 @@ class Order {
         char *zip_code = NULL;
         char *address = NULL;
 
-        Order(char* order_date, char* product_id, char* product_quantity, char* order_customer, char* order_zip_code, char* order_address);
+        OrderedProduct(char* order_date, char* product_id, char* product_quantity, char* order_customer, char* order_zip_code, char* order_address);
 
-        Order(char* order_id, char* order_date, char* product_id, char* product_quantity, char* order_customer, char* order_zip_code, char* order_address);
+        OrderedProduct(char* order_id, char* order_date, char* product_id, char* product_quantity, char* order_customer, char* order_zip_code, char* order_address);
 
-        ~Order();
+        ~OrderedProduct();
 
-        static Order* from_stream(redisReply* reply, int stream_num, int msg_num);
+        static OrderedProduct* from_stream(redisReply* reply, int stream_num, int msg_num);
 };
 
 

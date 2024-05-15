@@ -78,23 +78,6 @@ CREATE TABLE IF NOT EXISTS Delivery (
 
 );
 
-CREATE TABLE IF NOT EXISTS WishList (
-    id SERIAL PRIMARY KEY,
-    customer INTEGER NOT NULL,
-    FOREIGN KEY (customer) REFERENCES Customer(id) ON DELETE CASCADE
-
-);
---prodotto aggiunto alla wishlist
-CREATE TABLE IF NOT EXISTS AddedProduct (
-    product INTEGER NOT NULL,
-    wishlist INTEGER NOT NULL, 
-
-    PRIMARY KEY (product, wishlist),
-    FOREIGN KEY (product) REFERENCES Product(id) ON DELETE CASCADE,
-    FOREIGN KEY (wishlist) REFERENCES Wishlist(id) ON DELETE CASCADE
-
-);
-
 CREATE TABLE IF NOT EXISTS Review (
     id SERIAL PRIMARY KEY,
     customer INTEGER NOT NULL,

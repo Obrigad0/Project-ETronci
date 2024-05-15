@@ -1,6 +1,6 @@
-#include "order.h"
+#include "ordered-product.h"
 
-Order::Order(char* order_date, char* product_id, char* product_quantity, char* order_customer, char* order_zip_code, char* order_address){
+OrderedProduct::OrderedProduct(char* order_date, char* product_id, char* product_quantity, char* order_customer, char* order_zip_code, char* order_address){
 
     date = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
     product = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
@@ -17,7 +17,7 @@ Order::Order(char* order_date, char* product_id, char* product_quantity, char* o
     strcpy(address, order_address);
 }
 
-Order::Order(char* order_id, char* order_date, char* product_id, char* product_quantity, char* order_customer, char* order_zip_code, char* order_address){
+OrderedProduct::OrderedProduct(char* order_id, char* order_date, char* product_id, char* product_quantity, char* order_customer, char* order_zip_code, char* order_address){
 
     id = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
     date = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
@@ -36,7 +36,7 @@ Order::Order(char* order_id, char* order_date, char* product_id, char* product_q
     strcpy(address, order_address);
 }
 
-Order::~Order(){
+OrderedProduct::~OrderedProduct(){
     free(id);
     free(date);
     free(product);
@@ -46,7 +46,7 @@ Order::~Order(){
     free(address);
 }
 
-Order* Order::from_stream(redisReply* reply, int stream_num, int msg_num){
+OrderedProduct* OrderedProduct::from_stream(redisReply* reply, int stream_num, int msg_num){
     char key[KEY_LEN];
     char value[PARAMETERS_LEN];
 
@@ -86,6 +86,6 @@ Order* Order::from_stream(redisReply* reply, int stream_num, int msg_num){
         }
     }
 
-    return new Order(date, product, quantity, customer, zip_code, address);
+    return new OrderedProduct(date, product, quantity, customer, zip_code, address);
 }
     

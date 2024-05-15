@@ -17,7 +17,7 @@
 
 #include "../../../service/database/dbConnection.h"
 #include "../../../service/redis/redisConnection.h"
-#include "../../../classes/order.h"
+#include "../../../classes/ordered-product.h"
 #include "../../../classes/delivery.h"
 #include "../shared/standard.h"
 

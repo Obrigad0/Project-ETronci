@@ -20,7 +20,7 @@
 #include "../shared/standard.h"
 
 // costanti
-// cambiato lo stream da take-purchase-delivery-in a take-delivery-in
+
 #define READ_STREAM "take-delivery-in"
 #define WRITE_STREAM "take-delivery-out"
 

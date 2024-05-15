@@ -45,7 +45,7 @@ int main() {
             continue;
         }
 
-        sprintf(query, "INSERT INTO seller (name, piva, description, mail, password) VALUES (\'%s\', \'%s\', \'%s\', \'%s\', \'%s\')", 
+        sprintf(query, "INSERT INTO Seller (name, piva, description, mail, password) VALUES (\'%s\', \'%s\', \'%s\', \'%s\', \'%s\')", 
                         seller->name, seller->piva, seller->descrpition, seller->mail, seller->password);
 
         query_res = db.RunQuery(query, false);

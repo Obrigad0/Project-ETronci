@@ -47,7 +47,7 @@ int main() {
             continue;
         }
 
-        query = "SELECT * FROM delivery WHERE id = " + std::string(delivery->id);
+        query = "SELECT * FROM Delivery WHERE id = " + std::string(delivery->id);
         
         query_res = db.RunQuery((char *) query.c_str(), true);
 

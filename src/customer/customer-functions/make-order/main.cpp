@@ -11,7 +11,7 @@ int main() {
     Con2DB db(POSTGRESQL_SERVER, POSTGRESQL_PORT, POSTGRESQL_USER, POSTGRESQL_PSW, POSTGRESQL_DBNAME);
     redConn = redisConnect(REDIS_SERVER, REDIS_PORT);
 
-    Order* order;
+    OrderedProduct* order;
 
     while(true) {
 
@@ -38,14 +38,14 @@ int main() {
 
         // Convert request
         try{
-            order = Order::from_stream(redReply, 0, 0);
+            order = OrderedProduct::from_stream(redReply, 0, 0);
         }
         catch(std::invalid_argument exp){
             send_response_status(redConn, WRITE_STREAM, client_id, "BAD_REQUEST", msg_id, 0);
             continue;
         }
 
-        sprintf(query, "INSERT INTO order (date, product, quantity, customer, zip_code, address) VALUES (\'%s\', \'%s\', %s, \'%s\', \'%s\', \'%s\')", order->date, order->quantity, order->product, order->customer, order->zip_code, order->address);
+        sprintf(query, "INSERT INTO OrderedProduct (date, product, quantity, customer, zip_code, address) VALUES (\'%s\', \'%s\', %s, \'%s\', \'%s\', \'%s\')", order->date, order->quantity, order->product, order->customer, order->zip_code, order->address);
 
         query_res = db.RunQuery(query, true);
 

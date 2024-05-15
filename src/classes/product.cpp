@@ -125,5 +125,5 @@ std::string Product::to_insert_query() {
     //str_name = replace_substring(str_name, SPACE_REDIS_STRING, SPACE);
     //str_description = replace_substring(str_description, SPACE_REDIS_STRING, SPACE);
 
-    return "INSERT INTO product (id, name, description, price_tag, seller, warehouse) VALUES (\'" + str_id + "\', \'" + str_name + "\', \'" + str_description + "\', \'" + str_price + "\', \'" + str_seller + "\', \'" + str_warehouse + "\')";
+    return "INSERT INTO Product (id, name, description, price_tag, seller, warehouse) VALUES (\'" + str_id + "\', \'" + str_name + "\', \'" + str_description + "\', \'" + str_price + "\', \'" + str_seller + "\', \'" + str_warehouse + "\')";
 }

@@ -14,7 +14,7 @@ class Delivery {
     public:
         // eliminata la variabile time
         char *id = NULL; // cambiato nome delivery_code a id
-        char *order = NULL;
+        char *orderid = NULL;
         char *courier = NULL;
         char *status = NULL; // cambiato nome da state a status
 

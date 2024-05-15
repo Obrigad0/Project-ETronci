@@ -44,7 +44,7 @@ int main() {
         
         // per ora prendo solo gli ordini che sono stati assegnati ad una spedizine
         // però dovremmo prendere anche quelli non assegnati. magari usando un oggetto delivery vuoto?
-        sprintf(query, "SELECT * FROM order JOIN delivery ON delivery.order = order.id;")
+        sprintf(query, "SELECT * FROM OrderedProduct JOIN Delivery ON Delivery.orderid = OrderedProduct.id;")
 
         query_res = db.RunQuery(query, true);
 
@@ -53,12 +53,12 @@ int main() {
             continue;
         }
 
-        std::list<Order*> orders;
+        std::list<OrderedProduct*> orders;
         std::list<Delivery*> deliveries;
 
         for(int row = 0; row < PQntuples(query_res); row++) {
-            Order * order;
-            order = new Order(PQgetvalue(query_res, row, PQfnumber(query_res, "id")),
+            OrderedProduct * order;
+            order = new OrderedProduct(PQgetvalue(query_res, row, PQfnumber(query_res, "id")),
                                 PQgetvalue(query_res, row, PQfnumber(query_res, "customer")),
                                 PQgetvalue(query_res, row, PQfnumber(query_res, "product")),
                                 PQgetvalue(query_res, row, PQfnumber(query_res, "quanity")),
@@ -70,7 +70,7 @@ int main() {
 
             Delivery * delivery;
             delivery = new delivery(PQgetvalue(query_res, row, PQfnumber(query_res, "id")),
-                                    PQgetvalue(query_res, row, PQfnumber(query_res, "order")),
+                                    PQgetvalue(query_res, row, PQfnumber(query_res, "orderid")),
                                     PQgetvalue(query_res, row, PQfnumber(query_res, "courier")),
                                     PQgetvalue(query_res, row, PQfnumber(query_res, "date")),
                                     PQgetvalue(query_res, row, PQfnumber(query_res, "status")));
@@ -82,13 +82,13 @@ int main() {
 
         for(int row = 0; row<PQntuples(query_res); row++) {
 
-            Order* order = orders.front();
+            OrderedProduct* order = orders.front();
             orders.pop_front();
 
             Delivery* delivery = deliveries.front();
             deliveries.pop_front();
 
-            // non ho compreso order di Delivery perchè mi sembre inutile
+            // non ho compreso orderid di Delivery perchè mi sembre inutile
             redReply = RedisCommand(redConn, "XADD %s * row %d order_id %s customer %s product %s quantity %s date %s zip_code %s address %s delivery_id %s courier %s delivery_date %s status %s", WRITE_STREAM, row, order->id, order->customer, order->product, order->quantity, order->date, order->zip_code, order->address, delivery->id, delivery->courier, delivery->date, delivery->status);
             assertReplyType(redConn, redReply, REDIS_REPLY_STRING);
             freeReplyObject(redReply);

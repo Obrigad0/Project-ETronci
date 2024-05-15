@@ -45,7 +45,7 @@ int main() {
             continue;
         }
 
-        sprintf(query, "INSERT INTO review (customer, product, stars, comment) VALUES (\'%s\', \'%s\', %s, \'%s\')", review->customer, review->product, review->stars, review->comment);
+        sprintf(query, "INSERT INTO Review (customer, product, stars, comment) VALUES (\'%s\', \'%s\', %s, \'%s\')", review->customer, review->product, review->stars, review->comment);
 
         query_res = db.RunQuery(query, false);
 

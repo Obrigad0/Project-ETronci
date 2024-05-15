@@ -34,7 +34,7 @@ int main() {
         }
 
         // order potrebbe dare problemi nelle query?
-        sprintf(query, "SELECT * FROM order WHERE id NOT IN (SELECT order FROM delivery)");
+        sprintf(query, "SELECT * FROM OrderedProduct WHERE id NOT IN (SELECT orderid FROM Delivery)");
 
         query_res = db.RunQuery(query, true);
         if (PQresultStatus(query_res) != PGRES_COMMAND_OK && PQresultStatus(query_res) != PGRES_TUPLES_OK) {
@@ -43,11 +43,11 @@ int main() {
         }
 
         // compongo la lista di tutti gli ordini disponibili per il corriere
-        std::list<Order*> orders;
+        std::list<OrderedProduct*> orders;
 
         for(int row = 0; row < PQntuples(query_res); row++) {
-            Order *order;
-            order = new Order(PQgetvalue(query_res, row, PQfnumber(query_res, "id")),
+            OrderedProduct *order;
+            order = new OrderedProduct(PQgetvalue(query_res, row, PQfnumber(query_res, "id")),
                                 PQgetvalue(query_res, row, PQfnumber(query_res, "date")),
                                 PQgetvalue(query_res, row, PQfnumber(query_res, "product")),
                                 PQgetvalue(query_res, row, PQfnumber(query_res, "quantity")),
@@ -61,7 +61,7 @@ int main() {
         send_response_status(redConn, WRITE_STREAM, client_id, "REQUEST_SUCCESS", msg_id, PQntuples(query_res));
 
         for(int row = 0; row < PQntuples(query_res); row++) {
-            Order* order = orders.front();
+            OrderedProduct* order = orders.front();
 
             orders.pop_front();
 
