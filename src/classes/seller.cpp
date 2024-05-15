@@ -2,12 +2,12 @@
 
 Seller::Seller(char* seller_id, char* seller_name, char* seller_piva, char* seller_description, char* seller_mail, char* seller_password){
 
-    id = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    name = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    piva = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    descrpition = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    mail = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    password = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
+    id = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    name = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    piva = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    descrpition = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    mail = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    password = (char*) malloc(sizeof(char) * PRMTRSIZE);
 
     strcpy(id, seller_id);
     strcpy(name, seller_name);
@@ -28,14 +28,14 @@ Seller::~Seller(){
 
 Seller* Seller::from_stream(redisReply* reply, int stream_num, int msg_num){
 
-    char key[KEY_LEN];
-    char value[PARAMETERS_LEN];
+    char key[KEYSIZE];
+    char value[PRMTRSIZE];
 
-    char name[PARAMETERS_LEN];
-    char piva[PARAMETERS_LEN];
-    char description[PARAMETERS_LEN];
-    char mail[PARAMETERS_LEN];
-    char password[PARAMETERS_LEN];
+    char name[PRMTRSIZE];
+    char piva[PRMTRSIZE];
+    char description[PRMTRSIZE];
+    char mail[PRMTRSIZE];
+    char password[PRMTRSIZE];
 
     // itero attraverso i campi del messaggio nel flusso Redis. Ogni campo è rappresentato da una coppia chiave-valore.
     for (int field_num = 2; field_num < ReadStreamMsgNumVal(reply, stream_num, msg_num); field_num += 2) {

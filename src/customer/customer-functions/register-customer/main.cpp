@@ -6,7 +6,7 @@ int main() {
 
     PGresult *query_res;
     
-    char query[QUERYSIZE], response[RESPONSE_LEN], msg_id[MSGIDSIZE], first_key[KEY_LEN], client_id[VALUESIZE];
+    char query[QUERYSIZE], response[RESPONSESIZE], msg_id[MSGIDSIZE], first_key[KEYSIZE], client_id[VALUESIZE];
 
     Con2DB db(POSTGRESQL_SERVER, POSTGRESQL_PORT, POSTGRESQL_USER, POSTGRESQL_PSW, POSTGRESQL_DBNAME);
     redConn = redisConnect(REDIS_SERVER, REDIS_PORT);
@@ -44,8 +44,7 @@ int main() {
             continue;
         }
 
-        sprintf(query, "INSERT INTO customer (name, mail, password, address) VALUES (\'%s\', \'%s\', \'%s\', \'%s\')", 
-                    customer->name, customer->mail, customer->password, customer->address);
+        sprintf(query, "INSERT INTO Customer (name, mail, password) VALUES (\'%s\', \'%s\', \'%s\')", customer->name, customer->mail, customer->password);
 
         query_res = db.RunQuery(query, false);
         if (PQresultStatus(query_res) != PGRES_COMMAND_OK && PQresultStatus(query_res) != PGRES_TUPLES_OK) {

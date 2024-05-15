@@ -5,17 +5,16 @@ int main() {
     redisReply *redReply;
 
     PGresult *query_res;
-
-    char query[QUERYSIZE], response[RESPONSE_LEN], msg_id[MSGIDSIZE], first_key[KEY_LEN], client_id[VALUESIZE];
+    
+    char query[QUERYSIZE], response[RESPONSESIZE], msg_id[MSGIDSIZE], first_key[KEYSIZE], client_id[VALUESIZE];
 
     Con2DB db(POSTGRESQL_SERVER, POSTGRESQL_PORT, POSTGRESQL_USER, POSTGRESQL_PSW, POSTGRESQL_DBNAME);
     redConn = redisConnect(REDIS_SERVER, REDIS_PORT);
 
-    Address* address;
+    Courier* courier;
 
     while(true) {
-
-        redReply = RedisCommand(redConn, "XREADGROUP GROUP main customer BLOCK 0 COUNT 1 STREAMS %s >", READ_STREAM);
+        redReply = RedisCommand(redConn, "XREADGROUP GROUP main courier BLOCK 0 COUNT 1 STREAMS %s >", READ_STREAM);
 
         assertReply(redConn, redReply);
 
@@ -35,29 +34,26 @@ int main() {
             send_response_status(redConn, WRITE_STREAM, client_id, "BAD_REQUEST", msg_id, 0);
             continue;
         }
-
+        
         // Convert request
         try{
-            address = Address::from_stream(redReply, 0, 0);
+            courier = Courier::from_stream(redReply, 0, 0);
         }
         catch(std::invalid_argument exp){
             send_response_status(redConn, WRITE_STREAM, client_id, "BAD_REQUEST", msg_id, 0);
             continue;
         }
 
-        std::string full_address = std::string(address->street) + " " + std::string(address->street_number) + " " + std::string(address->zip_code) 
-                                        + " " + std::string(address->city)
-        sprintf(query, "INSERT INTO customer (address) VALUES (\'%s\') WHERE id = " + std::string(client_id), full_address);
+        sprintf(query, "INSERT INTO Courier (name, mail, password, warehouse) VALUES (\'%s\', \'%s\', \'%s\', \'%s\')", 
+                    courier->name, courier->mail, courier->password, courier->warehouse);
 
         query_res = db.RunQuery(query, false);
-
         if (PQresultStatus(query_res) != PGRES_COMMAND_OK && PQresultStatus(query_res) != PGRES_TUPLES_OK) {
             send_response_status(redConn, WRITE_STREAM, client_id, "DB_ERROR", msg_id, 0);
             continue;
         }
 
         send_response_status(redConn, WRITE_STREAM, client_id, "REQUEST_SUCCESS", msg_id, 0);
-        
     }
 
     db.finish();

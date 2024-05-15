@@ -1,9 +1,9 @@
 #include "delivery.h"
 
 Delivery::Delivery(char* delivery_id, char* order_id, char* courier_id) {
-    id = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    orderid = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    courier = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
+    id = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    orderid = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    courier = (char*) malloc(sizeof(char) * PRMTRSIZE);
 
     strcpy(id, delivery_id);
     strcpy(orderid, order_id);
@@ -12,8 +12,8 @@ Delivery::Delivery(char* delivery_id, char* order_id, char* courier_id) {
 }
 
 Delivery::Delivery(char* delivery_id, char* update_status) {
-    id = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    status = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
+    id = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    status = (char*) malloc(sizeof(char) * PRMTRSIZE);
 
     strcpy(id, delivery_id);
     strcpy(status, update_status);
@@ -27,15 +27,15 @@ Delivery::~Delivery(){
     free(status);
 }
 
-// sostituito PARAMETERS_LEN con KEY_LEN per key
+// sostituito PRMTRSIZE con KEYSIZE per key
 
 Delivery* Delivery::from_stream(redisReply* reply, int stream_num, int msg_num) {
-    char key[KEY_LEN];
-    char value[PARAMETERS_LEN];
+    char key[KEYSIZE];
+    char value[PRMTRSIZE];
 
-    char id[PARAMETERS_LEN];
-    char courier[PARAMETERS_LEN];
-    char orderid[PARAMETERS_LEN];
+    char id[PRMTRSIZE];
+    char courier[PRMTRSIZE];
+    char orderid[PRMTRSIZE];
 
     // itero attraverso i campi del messaggio nel flusso Redis. Ogni campo è rappresentato da una coppia chiave-valore.
     for (int field = 2; field < ReadStreamMsgNumVal(reply, stream_num, msg_num); field += 2) {
@@ -61,11 +61,11 @@ Delivery* Delivery::from_stream(redisReply* reply, int stream_num, int msg_num) 
 
 // aggiorna lo stato della spedizione
 Delivery* Delivery::update_from_stream(redisReply* reply, int stream_num, int msg_num) {
-    char key[KEY_LEN];
-    char value[PARAMETERS_LEN];
+    char key[KEYSIZE];
+    char value[PRMTRSIZE];
 
-    char id[PARAMETERS_LEN];
-    char update_status[PARAMETERS_LEN];
+    char id[PRMTRSIZE];
+    char update_status[PRMTRSIZE];
 
     for (int field = 2; field < ReadStreamMsgNumVal(reply, stream_num, msg_num); field += 2) {
         ReadStreamMsgVal(reply, stream_num, msg_num, field, key);

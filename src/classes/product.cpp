@@ -2,12 +2,12 @@
 
 Product::Product(char* product_id, char* product_name, char* product_description, char* product_price, char* product_seller, char* product_warehouse){
 
-    id = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    name = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    description = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    price_tag = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    seller = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    warehouse = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
+    id = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    name = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    description = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    price_tag = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    seller = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    warehouse = (char*) malloc(sizeof(char) * PRMTRSIZE);
 
     strcpy(id, product_id);
     strcpy(name, product_name);
@@ -19,12 +19,12 @@ Product::Product(char* product_id, char* product_name, char* product_description
 
 Product::Product(char* product_id, char* product_description){
 
-    id = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    name = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    description = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    price_tag = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    seller = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    warehouse = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
+    id = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    name = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    description = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    price_tag = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    seller = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    warehouse = (char*) malloc(sizeof(char) * PRMTRSIZE);
 
     strcpy(id, product_id);
     strcpy(description, product_description);
@@ -42,15 +42,15 @@ Product::~Product(){
 
 Product* Product::from_stream(redisReply* reply, int stream_num, int msg_num) {
 
-    char key[KEY_LEN];
-    char value[PARAMETERS_LEN];
+    char key[KEYSIZE];
+    char value[PRMTRSIZE];
 
-    char id[PARAMETERS_LEN];
-    char name[PARAMETERS_LEN];
-    char description[PARAMETERS_LEN];
-    char price_tag[PARAMETERS_LEN];
-    char seller[PARAMETERS_LEN];
-    char warehouse[PARAMETERS_LEN]
+    char id[PRMTRSIZE];
+    char name[PRMTRSIZE];
+    char description[PRMTRSIZE];
+    char price_tag[PRMTRSIZE];
+    char seller[PRMTRSIZE];
+    char warehouse[PRMTRSIZE]
 
     for (int field_num = 2; field_num < ReadStreamMsgNumVal(reply, stream_num, msg_num); field_num += 2) {
         ReadStreamMsgVal(reply, stream_num, msg_num, field_num, key);
@@ -85,11 +85,11 @@ Product* Product::from_stream(redisReply* reply, int stream_num, int msg_num) {
 
 Product* Product::update_from_stream(redisReply* reply, int stream_num, int msg_num) {
 
-    char key[KEY_LEN];
-    char value[PARAMETERS_LEN];
+    char key[KEYSIZE];
+    char value[PRMTRSIZE];
 
-    char id[PARAMETERS_LEN];
-    char description[PARAMETERS_LEN];
+    char id[PRMTRSIZE];
+    char description[PRMTRSIZE];
 
     for (int field_num = 2; field_num < ReadStreamMsgNumVal(reply, stream_num, msg_num); field_num += 2) {
         ReadStreamMsgVal(reply, stream_num, msg_num, field_num, key);
@@ -108,7 +108,7 @@ Product* Product::update_from_stream(redisReply* reply, int stream_num, int msg_
 
     std::string str_description = description;
 
-    str_description = replace_substring(str_description, SPACE_REDIS_STRING, SPACE);
+    str_description = replace_substring(str_description, REDISSPACE, BLANKSPACE);
 
     return new Product(id, (char*)str_description.c_str());
 }
@@ -122,8 +122,8 @@ std::string Product::to_insert_query() {
     std::string str_warehouse = warehouse;
 
 
-    //str_name = replace_substring(str_name, SPACE_REDIS_STRING, SPACE);
-    //str_description = replace_substring(str_description, SPACE_REDIS_STRING, SPACE);
+    //str_name = replace_substring(str_name, REDISSPACE, BLANKSPACE);
+    //str_description = replace_substring(str_description, REDISSPACE, BLANKSPACE);
 
     return "INSERT INTO Product (id, name, description, price_tag, seller, warehouse) VALUES (\'" + str_id + "\', \'" + str_name + "\', \'" + str_description + "\', \'" + str_price + "\', \'" + str_seller + "\', \'" + str_warehouse + "\')";
 }

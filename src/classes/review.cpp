@@ -2,10 +2,10 @@
 
 Review::Review(char* review_customer, char* review_product, char* review_stars, char* review_comment){
 
-    customer = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    product = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    stars = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    comment = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
+    customer = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    product = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    stars = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    comment = (char*) malloc(sizeof(char) * PRMTRSIZE);
 
     strcpy(customer, review_customer);
     strcpy(product, review_product);
@@ -22,13 +22,13 @@ Review::~Review(){
 
 Review* Review::from_stream(redisReply* reply, int stream_num, int msg_num){
 
-    char key[KEY_LEN];
-    char value[PARAMETERS_LEN];
+    char key[KEYSIZE];
+    char value[PRMTRSIZE];
 
-    char customer[PARAMETERS_LEN];
-    char product[PARAMETERS_LEN];
-    char stars[PARAMETERS_LEN];
-    char comment[PARAMETERS_LEN];
+    char customer[PRMTRSIZE];
+    char product[PRMTRSIZE];
+    char stars[PRMTRSIZE];
+    char comment[PRMTRSIZE];
 
     for (int field_num = 2; field_num < ReadStreamMsgNumVal(reply, stream_num, msg_num); field_num +=  2) {
         ReadStreamMsgVal(reply, stream_num, msg_num, field_num, key);

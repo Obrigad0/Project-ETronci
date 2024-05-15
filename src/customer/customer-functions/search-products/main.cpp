@@ -6,7 +6,7 @@ int main() {
 
     PGresult *query_res;
 
-    char query[QUERYSIZE], response[RESPONSE_LEN], msg_id[MSGIDSIZE], first_key[KEY_LEN], client_id[VALUESIZE], second_key[KEY_LEN], product_name[VALUESIZE];
+    char query[QUERYSIZE], response[RESPONSESIZE], msg_id[MSGIDSIZE], first_key[KEYSIZE], client_id[VALUESIZE], second_key[KEYSIZE], product_name[VALUESIZE];
 
     Con2DB db(POSTGRESQL_SERVER, POSTGRESQL_PORT, POSTGRESQL_USER, POSTGRESQL_PSW, POSTGRESQL_DBNAME);
     redConn = redisConnect(REDIS_SERVER, REDIS_PORT);
@@ -45,7 +45,7 @@ int main() {
 
         std::string str_product_name = product_name;
         std::string search_parameter = "%"+ str_product_name + "%";
-        sprintf(query, "SELECT * FROM product WHERE name LIKE \'%s\' ", (char*)search_parameter.c_str());
+        sprintf(query, "SELECT * FROM Product WHERE name LIKE \'%s\' ", (char*)search_parameter.c_str());
 
         query_res = db.RunQuery(query, true);
 

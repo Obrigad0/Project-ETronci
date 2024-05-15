@@ -16,23 +16,21 @@
 
 #include "../../../service/database/dbConnection.h"
 #include "../../../service/redis/redisConnection.h"
-#include "../../../classes/address.h"
+#include "../../../classes/courier.h"
 #include "../shared/standard.h"
 
 // costanti
 
-#define READ_STREAM "add-address-in"
-#define WRITE_STREAM "add-address-out"
+#define READ_STREAM "register-courier-in"
+#define WRITE_STREAM "register-courier-out"
 
 #define REDIS_SERVER "localhost"
 #define REDIS_PORT 6379
 
 #define POSTGRESQL_SERVER "localhost"
 #define POSTGRESQL_PORT "5432"
-#define POSTGRESQL_USER "customer"
-#define POSTGRESQL_PSW "customer"
+#define POSTGRESQL_USER "courier"
+#define POSTGRESQL_PSW "courier"
 #define POSTGRESQL_DBNAME "ecommerce"
-
-using namespace std;
 
 #endif

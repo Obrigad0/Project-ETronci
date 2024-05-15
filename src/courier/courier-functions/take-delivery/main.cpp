@@ -8,8 +8,8 @@ int main() {
     // per comunicare con il db
     PGresult *query_res;
 
-    // eliminato response[RESPONSE_LEN]
-    std::string msg_id[MSGIDSIZE], redis_key[KEY_LEN], client_id[VALUESIZE];
+    // eliminato response[RESPONSESIZE]
+    std::string msg_id[MSGIDSIZE], redis_key[KEYSIZE], client_id[VALUESIZE];
     std::string query;
 
     // connessione ai 2 database

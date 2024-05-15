@@ -32,7 +32,6 @@ CREATE TABLE IF NOT EXISTS Courier(
     UNIQUE(mail)
 );
 
--- ho rimosso quantity e il check che sia maggiore di zero, meno problemi per noi
 CREATE TABLE IF NOT EXISTS Product (
     id SERIAL PRIMARY KEY,
     name String NOT NULL,

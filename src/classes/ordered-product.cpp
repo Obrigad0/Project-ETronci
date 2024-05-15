@@ -2,12 +2,12 @@
 
 OrderedProduct::OrderedProduct(char* order_date, char* product_id, char* product_quantity, char* order_customer, char* order_zip_code, char* order_address){
 
-    date = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    product = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    quantity = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    customer = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    zip_code = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    address = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
+    date = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    product = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    quantity = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    customer = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    zip_code = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    address = (char*) malloc(sizeof(char) * PRMTRSIZE);
 
     strcpy(date, order_date);
     strcpy(product, product_id);
@@ -19,13 +19,13 @@ OrderedProduct::OrderedProduct(char* order_date, char* product_id, char* product
 
 OrderedProduct::OrderedProduct(char* order_id, char* order_date, char* product_id, char* product_quantity, char* order_customer, char* order_zip_code, char* order_address){
 
-    id = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    date = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    product = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    quantity = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    customer = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    zip_code = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
-    address = (char*) malloc(sizeof(char) * PARAMETERS_LEN);
+    id = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    date = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    product = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    quantity = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    customer = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    zip_code = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    address = (char*) malloc(sizeof(char) * PRMTRSIZE);
 
     strcpy(id, order_id);
     strcpy(date, order_date);
@@ -47,14 +47,14 @@ OrderedProduct::~OrderedProduct(){
 }
 
 OrderedProduct* OrderedProduct::from_stream(redisReply* reply, int stream_num, int msg_num){
-    char key[KEY_LEN];
-    char value[PARAMETERS_LEN];
+    char key[KEYSIZE];
+    char value[PRMTRSIZE];
 
-    char product[PARAMETERS_LEN];
-    char quantity[PARAMETERS_LEN];
-    char customer[PARAMETERS_LEN];
-    char zip_code[PARAMETERS_LEN];
-    char address[PARAMETERS_LEN];
+    char product[PRMTRSIZE];
+    char quantity[PRMTRSIZE];
+    char customer[PRMTRSIZE];
+    char zip_code[PRMTRSIZE];
+    char address[PRMTRSIZE];
 
     // prendo il timestamp corrente
     char* date;
