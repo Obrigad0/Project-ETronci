@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/pykki/Documents/GitHub/Project-ETronci/src/classes",
-      "program": "c:/Users/pykki/Documents/GitHub/Project-ETronci/src/classes/build/Debug/outDebug",
+      "cwd": "c:/Users/pykki/Documents/GitHub/Project-ETronci/src/customer/customer-functions/check-order",
+      "program": "c:/Users/pykki/Documents/GitHub/Project-ETronci/src/customer/customer-functions/check-order/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

@@ -6,7 +6,8 @@ int main() {
 
     PGresult *query_res;
 
-    char query[QUERYSIZE], response[RESPONSESIZE], msg_id[MSGIDSIZE], first_key[KEYSIZE], client_id[VALUESIZE], order_id[VALUESIZE];
+    char first_key[KEYSIZE], second_key[KEYSIZE];
+    char query[QUERYSIZE], response[RESPONSESIZE], msg_id[MSGIDSIZE], client_id[VALUESIZE], order_id[VALUESIZE], courier_warehouse[PRMTRSIZE];
 
     Con2DB db(POSTGRESQL_SERVER, POSTGRESQL_PORT, POSTGRESQL_USER, POSTGRESQL_PSW, POSTGRESQL_DBNAME);
     redConn = redisConnect(REDIS_SERVER, REDIS_PORT);
@@ -28,13 +29,21 @@ int main() {
         ReadStreamMsgVal(redReply, 0, 0, 0, first_key);
         ReadStreamMsgVal(redReply, 0, 0, 1, client_id);
 
-        if(strcmp(first_key, "client_id") || (ReadStreamMsgNumVal(redReply, 0, 0) > 2)){
+        if(strcmp(first_key, "client_id")){
             send_response_status(redConn, WRITE_STREAM, client_id, "BAD_REQUEST", msg_id, 0);
             continue;
         }
 
-        // order potrebbe dare problemi nelle query?
-        sprintf(query, "SELECT * FROM OrderedProduct WHERE id NOT IN (SELECT orderid FROM Delivery)");
+        // input
+        ReadStreamMsgVal(redReply, 0, 0, 2, second_key);
+        ReadStreamMsgVal(redReply, 0, 0, 3, courier_warehouse);
+
+        if(strcmp(second_key, "courier_warehouse") || (ReadStreamMsgNumVal(redReply, 0, 0) > 4)){
+            send_response_status(redConn, WRITE_STREAM, client_id, "BAD_REQUEST", msg_id, 0);
+            continue;
+        }
+
+        sprintf(query, "SELECT * FROM OrderedProduct WHERE id NOT IN (SELECT orderid FROM Delivery) AND warehouse = %s", courier_warehouse);
 
         query_res = db.RunQuery(query, true);
         if (PQresultStatus(query_res) != PGRES_COMMAND_OK && PQresultStatus(query_res) != PGRES_TUPLES_OK) {

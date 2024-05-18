@@ -23,8 +23,8 @@
 
 // costanti
 
-#define READ_STREAM "view-orders-in"
-#define WRITE_STREAM "view-orders-out"
+#define READ_STREAM "check-order-in"
+#define WRITE_STREAM "check-order-out"
 
 #define REDIS_SERVER "localhost"
 #define REDIS_PORT 6379

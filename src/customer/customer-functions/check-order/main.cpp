@@ -3,10 +3,9 @@
 int main() {
     redisContext *redConn;
     redisReply *redReply;
-
     PGresult *query_res;
 
-    char query[QUERYSIZE], response[RESPONSESIZE], msg_id[MSGIDSIZE], first_key[KEYSIZE], client_id[VALUESIZE], second_key[KEYSIZE], purchase_id[VALUESIZE];
+    char query[QUERYSIZE], response[RESPONSESIZE], msg_id[MSGIDSIZE], first_key[KEYSIZE], client_id[VALUESIZE], second_key[KEYSIZE], order_id[VALUESIZE];
 
     Con2DB db(POSTGRESQL_SERVER, POSTGRESQL_PORT, POSTGRESQL_USER, POSTGRESQL_PSW, POSTGRESQL_DBNAME);
     redConn = redisConnect(REDIS_SERVER, REDIS_PORT);
@@ -35,16 +34,16 @@ int main() {
 
         // input
         ReadStreamMsgVal(redReply, 0, 0, 2, second_key);
-        ReadStreamMsgVal(redReply, 0, 0, 3, purchase_id);
+        ReadStreamMsgVal(redReply, 0, 0, 3, order_id);
 
-        if(strcmp(second_key, "purchase_id") || (ReadStreamMsgNumVal(redReply, 0, 0) > 4)){
+        if(strcmp(second_key, "order_id") || (ReadStreamMsgNumVal(redReply, 0, 0) > 4)){
             send_response_status(redConn, WRITE_STREAM, client_id, "BAD_REQUEST", msg_id, 0);
             continue;
         }
-        
+
         // per ora prendo solo gli ordini che sono stati assegnati ad una spedizine
         // però dovremmo prendere anche quelli non assegnati. magari usando un oggetto delivery vuoto?
-        sprintf(query, "SELECT * FROM OrderedProduct JOIN Delivery ON Delivery.orderid = OrderedProduct.id;")
+        sprintf(query, "SELECT * FROM OrderedProduct JOIN Delivery ON Delivery.orderid = OrderedProduct.id AND OrderedProduct.id = %s;", order_id)
 
         query_res = db.RunQuery(query, true);
 
@@ -88,8 +87,8 @@ int main() {
             Delivery* delivery = deliveries.front();
             deliveries.pop_front();
 
-            // non ho compreso orderid di Delivery perchè mi sembre inutile
-            redReply = RedisCommand(redConn, "XADD %s * row %d order_id %s customer %s product %s quantity %s date %s zip_code %s address %s delivery_id %s courier %s delivery_date %s status %s", WRITE_STREAM, row, order->id, order->customer, order->product, order->quantity, order->date, order->zip_code, order->address, delivery->id, delivery->courier, delivery->date, delivery->status);
+            redReply = RedisCommand(redConn, "XADD %s * row %d order_id %s customer %s product %s quantity %s date %s zip_code %s address %s delivery_id %s courier %s delivery_date %s status %s", 
+                                    WRITE_STREAM, row, order->id, order->customer, order->product, order->quantity, order->date, order->zip_code, order->address, delivery->id, delivery->courier, delivery->date, delivery->status);
             assertReplyType(redConn, redReply, REDIS_REPLY_STRING);
             freeReplyObject(redReply);
         }
