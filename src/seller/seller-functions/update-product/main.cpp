@@ -45,7 +45,6 @@ int main() {
             continue;
         }
 
-        // aggiungiamo anche il price_tag ??
         sprintf(query, "UPDATE Product SET description = \'%s\' WHERE id = \'%s\';", product->description, product->id);
 
         query_res = db.RunQuery(query, false);

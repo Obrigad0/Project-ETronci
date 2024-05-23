@@ -4,12 +4,9 @@ ODIR=../obj
 BDIR=../bin
 
 CC=g++
-# use this when connecting to Postgresql (library lpq)
+# per connettersi a PostgreSQL
 #CFLAGS=-std=c++11 -I. -I$(IDIR) -I/usr/include/postgresql -lpq -lm
 CFLAGS=-std=c++20 -g -ggdb -fpermissive -L/usr/local/lib -Wall -I. -I$(IDIR) -lm -lhiredis
-
-# use this when no connection to Postgresql (library lpq) is needed
-#CFLAGS=-std=c++11 -I. -I$(IDIR) -lm
 
 DEPS = $(wildcard $(IDIR)/*.h)
 #OBJ = $(wildcard $(ODIR)/*.o)
@@ -26,7 +23,7 @@ create_dirs:
 	mkdir -p $(ODIR)
 
 utils:
-	$(MAKE) -C ../../shared/
+	$(MAKE) -C ../shared/
 
 $(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)

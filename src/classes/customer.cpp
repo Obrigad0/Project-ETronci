@@ -1,20 +1,17 @@
 #include "customer.h"
 
-Customer::Customer(char* customer_name, char* customer_email, char* customer_password){
+Customer::Customer(char* customer_name, char* customer_mail){
 
     name = (char*) malloc(sizeof(char) * PRMTRSIZE);
     mail = (char*) malloc(sizeof(char) * PRMTRSIZE);
-    password = (char*) malloc(sizeof(char) * PRMTRSIZE);
 
     strcpy(name, customer_name);
-    strcpy(mail, customer_email);                                                                                  
-    strcpy(password, customer_password);
+    strcpy(mail, customer_mail);                                                                                  
 }
 
 Customer::~Customer(){
     free(name);
     free(mail);
-    free(password);
 }
 
 Customer* Customer::from_stream(redisReply* reply, int stream_num, int msg_num){
@@ -24,7 +21,6 @@ Customer* Customer::from_stream(redisReply* reply, int stream_num, int msg_num){
 
     char name[PRMTRSIZE];
     char mail[PRMTRSIZE];
-    char password[PRMTRSIZE];
 
     for (int field_num = 2; field_num < ReadStreamMsgNumVal(reply, stream_num, msg_num); field_num +=  2) {
         ReadStreamMsgVal(reply, stream_num, msg_num, field_num, key);
@@ -36,14 +32,11 @@ Customer* Customer::from_stream(redisReply* reply, int stream_num, int msg_num){
         } else if (!strcmp(key, "mail")) {
             snprintf(mail, PRMTRSIZE, "%s", value);
 
-        } else if (!strcmp(key, "password")) {
-            snprintf(password, PRMTRSIZE, "%s", value);
-
         } else {
             throw std::invalid_argument("Stream error: invalid fields");
         }
     }
 
-    return new Customer(name, mail, password);
+    return new Customer(name, mail);
 }
     

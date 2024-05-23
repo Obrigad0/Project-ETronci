@@ -14,16 +14,12 @@
 class Seller{
 
     public:
-        char *id = NULL;
         char *name = NULL;
         char *piva = NULL;
         char *descrpition = NULL;
         char *mail = NULL;
-        char *password = NULL
 
-        // TO DO non so se posso togliere l'id dal costruttore? customer non cel'ha, forse dovrei metterlo lì? uff
-
-        Seller(char* seller_id, char* seller_name, char* seller_piva, char* seller_description, char* seller_mail, char* seller_password);
+        Seller(char* seller_name, char* seller_piva, char* seller_description, char* seller_mail);
 
         ~Seller();
 

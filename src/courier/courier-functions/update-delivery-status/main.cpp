@@ -12,7 +12,6 @@ int main() {
     Con2DB db(POSTGRESQL_SERVER, POSTGRESQL_PORT, POSTGRESQL_USER, POSTGRESQL_PSW, POSTGRESQL_DBNAME);
     redConn = redisConnect(REDIS_SERVER, REDIS_PORT);
 
-    // qui utilizzo Delivery invece della classe AssignedDelivery. funziona ?
     Delivery* delivery;
 
     while(true) {

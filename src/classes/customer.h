@@ -16,9 +16,8 @@ class Customer{
     public:
         char* name = NULL;
         char* mail = NULL;
-        char* password = NULL;
 
-        Customer(char* customer_name, char* customer_email, char* customer_password);
+        Customer(char* customer_name, char* customer_mail);
 
         ~Customer();
 

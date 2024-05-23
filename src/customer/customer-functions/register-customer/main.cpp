@@ -44,7 +44,7 @@ int main() {
             continue;
         }
 
-        sprintf(query, "INSERT INTO Customer (name, mail, password) VALUES (\'%s\', \'%s\', \'%s\')", customer->name, customer->mail, customer->password);
+        sprintf(query, "INSERT INTO Customer (name, mail) VALUES (\'%s\', \'%s\')", customer->name, customer->mail);
 
         query_res = db.RunQuery(query, false);
         if (PQresultStatus(query_res) != PGRES_COMMAND_OK && PQresultStatus(query_res) != PGRES_TUPLES_OK) {

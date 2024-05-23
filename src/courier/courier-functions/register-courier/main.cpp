@@ -44,8 +44,8 @@ int main() {
             continue;
         }
 
-        sprintf(query, "INSERT INTO Courier (name, mail, password, warehouse) VALUES (\'%s\', \'%s\', \'%s\', \'%s\')", 
-                    courier->name, courier->mail, courier->password, courier->warehouse);
+        sprintf(query, "INSERT INTO Courier (name, mail, warehouse) VALUES (\'%s\', \'%s\', \'%s\')", 
+                    courier->name, courier->mail, courier->warehouse);
 
         query_res = db.RunQuery(query, false);
         if (PQresultStatus(query_res) != PGRES_COMMAND_OK && PQresultStatus(query_res) != PGRES_TUPLES_OK) {

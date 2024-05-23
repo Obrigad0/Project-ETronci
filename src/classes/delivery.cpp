@@ -1,14 +1,14 @@
 #include "delivery.h"
 
-Delivery::Delivery(char* delivery_id, char* order_id, char* courier_id) {
-    id = (char*) malloc(sizeof(char) * PRMTRSIZE);
+Delivery::Delivery(char* order_id, char* courier_id, char* order_status) {
     orderid = (char*) malloc(sizeof(char) * PRMTRSIZE);
     courier = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    status = (char*) malloc(sizeof(char) * PRMTRSIZE);
 
-    strcpy(id, delivery_id);
     strcpy(orderid, order_id);
     strcpy(courier, courier_id);
-    status = "not shipped";
+    // lo status a questo punto è "not shipped" oppure "shipped"
+    strcpy(status, order_status);
 }
 
 Delivery::Delivery(char* delivery_id, char* update_status) {
@@ -27,22 +27,21 @@ Delivery::~Delivery(){
     free(status);
 }
 
-// sostituito PRMTRSIZE con KEYSIZE per key
 
 Delivery* Delivery::from_stream(redisReply* reply, int stream_num, int msg_num) {
     char key[KEYSIZE];
     char value[PRMTRSIZE];
 
-    char id[PRMTRSIZE];
     char courier[PRMTRSIZE];
     char orderid[PRMTRSIZE];
+    char status[PRMTRSIZE];
 
     // itero attraverso i campi del messaggio nel flusso Redis. Ogni campo è rappresentato da una coppia chiave-valore.
     for (int field = 2; field < ReadStreamMsgNumVal(reply, stream_num, msg_num); field += 2) {
         ReadStreamMsgVal(reply, stream_num, msg_num, field, key);
         ReadStreamMsgVal(reply, stream_num, msg_num, field + 1, value);
                     
-        if (!strcmp(key, "deliveryid")) {
+        if (!strcmp(key, "status")) {
             sprintf(id, "%s", value);
 
         } else if (!strcmp(key, "orderid")) {
@@ -56,7 +55,7 @@ Delivery* Delivery::from_stream(redisReply* reply, int stream_num, int msg_num) 
         }
     }
 
-    return new Delivery(id, orderid, courier);
+    return new Delivery(orderid, courier, status);
 }
 
 // aggiorna lo stato della spedizione

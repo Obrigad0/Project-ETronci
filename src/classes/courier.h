@@ -1,5 +1,5 @@
-#ifndef customer_h
-#define customer_h
+#ifndef courier_h
+#define courier_h
 
 #include <string.h>
 #include <stdexcept>
@@ -16,10 +16,9 @@ class Courier{
     public:
         char* name = NULL;
         char* mail = NULL;
-        char* password = NULL;
         char* warehouse = NULL;
 
-        Courier(char* customer_name, char* customer_email, char* customer_password, char* courier_warehouse);
+        Courier(char* courier_name, char* courier_email, char* courier_warehouse);
 
         ~Courier();
 

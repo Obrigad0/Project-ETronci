@@ -1,22 +1,18 @@
 #include "main.h"
 
 int main() {
-    // connessioni con i db
-    redisContext *redConn; // cambiata da c2r a redConn
-    redisReply *redReply; // cambiata da reply a redPly
+    redisContext *redConn;
+    redisReply *redReply;
 
-    // per comunicare con il db
     PGresult *query_res;
 
-    // eliminato response[RESPONSESIZE]
     std::string msg_id[MSGIDSIZE], redis_key[KEYSIZE], client_id[VALUESIZE];
     std::string query;
 
-    // connessione ai 2 database
     Con2DB db(POSTGRESQL_SERVER, POSTGRESQL_PORT, POSTGRESQL_USER, POSTGRESQL_PSW, POSTGRESQL_DBNAME);
     redConn = redisConnect(REDIS_SERVER, REDIS_PORT);
 
-    Delivery* delivery; // cambiata la classe da DeliveryPurchase a Delivery
+    Delivery* delivery;
 
     while(true) {
 

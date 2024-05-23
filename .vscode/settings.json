@@ -104,6 +104,7 @@
     "list": "cpp",
     "ratio": "cpp",
     "cassert": "cpp",
-    "cerrno": "cpp"
+    "cerrno": "cpp",
+    "iomanip": "cpp"
   }
 }

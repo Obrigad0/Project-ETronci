@@ -121,9 +121,8 @@ std::string Product::to_insert_query() {
     std::string str_seller = seller;
     std::string str_warehouse = warehouse;
 
-
-    //str_name = replace_substring(str_name, REDISSPACE, BLANKSPACE);
-    //str_description = replace_substring(str_description, REDISSPACE, BLANKSPACE);
+    str_name = replace_substring(str_name, REDISSPACE, BLANKSPACE);
+    str_description = replace_substring(str_description, REDISSPACE, BLANKSPACE);
 
     return "INSERT INTO Product (id, name, description, price_tag, seller, warehouse) VALUES (\'" + str_id + "\', \'" + str_name + "\', \'" + str_description + "\', \'" + str_price + "\', \'" + str_seller + "\', \'" + str_warehouse + "\')";
 }
