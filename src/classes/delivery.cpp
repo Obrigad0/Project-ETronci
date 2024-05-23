@@ -97,7 +97,7 @@ std::string Delivery::to_insert_query() {
 
     auto current_timestamp = std::chrono::system_clock::now();
     std::time_t current_time = std::chrono::system_clock::to_time_t(current_timestamp);
-    std::string current_date = std::ctime(&current_time);
+    std::string current_date = std::ctime(&current_time); // solo ctime(&current_time);???? TO DO
 
     //std::string current_date = get_current_timestamp_as_string();
 

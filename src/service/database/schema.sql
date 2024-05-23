@@ -1,3 +1,5 @@
+\c :dbname
+
 CREATE DOMAIN String AS VARCHAR(255);
 CREATE DOMAIN PartitaIva AS VARCHAR(11);
 CREATE TYPE StatusOrder AS ENUM ('not shipped', 'shipped', 'delivered');
@@ -7,8 +9,7 @@ CREATE TABLE IF NOT EXISTS Customer (
     id SERIAL PRIMARY KEY ,
     name String NOT NULL,
     mail String NOT NULL,
-    password String NOT NULL,
-    UNIQUE(mail) 
+    UNIQUE(mail)
 );
 
 CREATE TABLE IF NOT EXISTS Seller (
@@ -17,8 +18,7 @@ CREATE TABLE IF NOT EXISTS Seller (
     piva PartitaIva NOT NULL,
     description TEXT,
     mail String NOT NULL,
-    password String NOT NULL,
-    UNIQUE(mail) 
+    UNIQUE(mail)
 
 );
 
@@ -26,7 +26,6 @@ CREATE TABLE IF NOT EXISTS Courier(
     id SERIAL PRIMARY KEY ,
     name String NOT NULL,
     mail String NOT NULL,
-    password String NOT NULL,
     warehouse INTEGER NOT NULL,
     FOREIGN KEY (warehouse) REFERENCES Warehouse(id) ON DELETE CASCADE,
     UNIQUE(mail)
