@@ -84,11 +84,11 @@ set_current_root src
 
 make_folder server
 
-printf "############## NON FUNCTIONAL REQ ##############\n\n"
+printf "############## Logdb ##############\n\n"
 
-set_current_root src
+set_current_root src/service
 
-make_folder non-functional-req/src
+make_folder logDatabase
 
 printf "############## Customer ##############\n\n"
 

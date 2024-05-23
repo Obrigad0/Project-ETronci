@@ -1,4 +1,3 @@
-#ifndef standard_h
 #define standard_h
 
 // MODIFICARE QUESTI VALORI PER CAMBIARE I RISULTATI DESIDERATI
