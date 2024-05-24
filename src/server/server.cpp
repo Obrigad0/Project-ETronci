@@ -48,13 +48,13 @@ Server::Server(const char* id, int port, const char* redis_ip, int redis_port, s
         throw std::runtime_error(std::string("Errore nell'ascolto dal socket per il server: ") + server);
     }
 
-    //TO DO Crezione oggetto handler per la gestione delle funzioni e l'interazione con redis
+
 
 }
 
 
 // distruttore server
-Server::~Server(){  // TO DO
+Server::~Server(){
     db.disconnectFromDatabase();
     // chiusura connessione
 
@@ -201,7 +201,7 @@ void Server::chiudiConnessione() {
             // Imposta disconnection_instant al timestamp corrente
             // per il client identificato da server_name e file_descriptor
             // solo se disconnection_instant è attualmente NULL
-            sprintf(query, "UPDATE Client SET disconnection_instant = CURRENT_TIMESTAMP WHERE server_name = \'%s\' AND file_descriptor = %d AND disconnection_instant IS NULL", server, i); //TO DO CAMBIARE QUESTTE QUERY PER ADATARLE AL DB
+            sprintf(query, "UPDATE Client SET disconnection_instant = CURRENT_TIMESTAMP WHERE server_name = \'%s\' AND file_descriptor = %d AND disconnection_instant IS NULL", server, i);
 
             // Esegue la query sul database utilizzando il meTO DO RunQuery dell'oggetto db
             // Il secondo parametro false indica che la query non restituirà risultati (è un UPDATE, non un SELECT)
@@ -233,7 +233,7 @@ void Server::addNewClients(){
         }
 
         // accept ha avuto successo, bisogna registrare nel database l'accesso del client
-        sprintf(query, "INSERT INTO Client(server_name, file_descriptor, connection_instant) VALUES (\'%s\', %d, CURRENT_TIMESTAMP)", server, newClient);//TO DO CAMBIARE QUESTTE QUERY PER ADATARLE AL DB
+        sprintf(query, "INSERT INTO Client(server_name, file_descriptor, connection_instant) VALUES (\'%s\', %d, CURRENT_TIMESTAMP)", server, newClient);
         resp = db.RunQuery(query, false);
 
         if (PQresultStatus(resp) != PGRES_COMMAND_OK && PQresultStatus(resp) != PGRES_TUPLES_OK) {
@@ -268,7 +268,7 @@ void Server::sendClientResponse(int idClient, std::string msg){
                    "WHERE client_server_name = \'%s\' AND client_file_descriptor = %d AND client_connection_instant = (SELECT instant FROM max_client_conn) AND request_instant = (SELECT instant FROM last_request)",
             server, idClient, server, idClient, primaRiga.c_str(), server, idClient);
 
-    // TO DO: bisogna modificare questa query per adattarla al nostro db
+
     resp = db.RunQuery(query, false);
 
     // Verifica se il risultato della query indica un errore
@@ -309,7 +309,6 @@ void Server::receiveClientData(int i){
     if (stacca) {
         // Aggiorna il timestamp di disconnessione del client nel database
         sprintf(query, "UPDATE Client SET disconnection_instant = CURRENT_TIMESTAMP WHERE server_name = \'%s\' AND file_descriptor = %d AND disconnection_instant IS NULL", server, i);
-        // TO DO: modificare questa query per adattarla al nostro db
         resp = db.RunQuery(query, false); // Esegue la query sul database
         close(i); // Chiude il socket 'i'
         FD_CLR(i, &current_set); // Rimuove il descrittore di file 'i' dal set corrente
@@ -323,7 +322,6 @@ void Server::receiveClientData(int i){
 // Inserisce una nuova comunicazione nel database
     sprintf(query, "INSERT INTO Communication(request, request_instant, client_server_name, client_file_descriptor, client_connection_instant)"
                    "VALUES (\'%s\', CURRENT_TIMESTAMP, \'%s\', %d, (SELECT connection_instant FROM Client WHERE disconnection_instant IS NULL and server_name = \'%s\' and file_descriptor = %d))", msg.c_str(), server, i, server, i);
-// TO DO: modificare questa query per adattarla al nostro db
     resp = db.RunQuery(query, false); // Esegue la query sul database
     if (PQresultStatus(resp) != PGRES_COMMAND_OK && PQresultStatus(resp) != PGRES_TUPLES_OK) {
         send(i, "SERVER_ERROR", 12, 0); // Invia un messaggio di errore al client in caso di errore nella query

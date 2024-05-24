@@ -25,10 +25,10 @@ public:
   DbConnection(const char *hostname,const char *port,const char *username,const char *password,const char *dbname);
 
   // usata per eseguire Query che non ritornano dati. INSERT, UPDATE e DELETE
-  PGresult* RunActionQuery(char *query); //ex ExecSQLcmd(char *sqlcmd); TO DO L.C.
+  PGresult* RunActionQuery(char *query);
 
   // usata per eseguire Query che ritornano dati. SELECT
-  PGresult* RunDataQuery(char *query); //TO DO ex ExecSQLtuples(char *sqlcmd); TO DO L.C.
+  PGresult* RunDataQuery(char *query);
 
   // runQuery e' la funzione principale per l'esecuzione delle query, chiama, a seconda del valore di moreValue, RunActionQuery o RunDataQuery
   PGresult* RunQuery(char* query, bool moreValue);

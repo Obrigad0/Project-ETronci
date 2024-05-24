@@ -9,7 +9,7 @@ int main() {
 
     char msg_id[MSGIDSIZE], first_key[KEYSIZE], client_id[VALUESIZE];
 
-    Con2DB db(POSTGRESQL_SERVER, POSTGRESQL_PORT, POSTGRESQL_USER, POSTGRESQL_PSW, POSTGRESQL_DBNAME);
+    DbConnection db(POSTGRESQL_SERVER, POSTGRESQL_PORT, POSTGRESQL_USER, POSTGRESQL_PSW, POSTGRESQL_DBNAME);
     redConn = redisConnect(REDIS_SERVER, REDIS_PORT);
 
     Delivery* delivery;
@@ -68,7 +68,7 @@ int main() {
         
     }
 
-    db.finish();
+    db.disconnectFromDatabase();
 
     return 0;
 }

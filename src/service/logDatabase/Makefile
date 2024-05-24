@@ -18,8 +18,8 @@ SRC = $(wildcard *.cpp)
 OBJ = $(patsubst %.cpp, $(ODIR)/%.o, $(SRC))
 
 # con2db_OBJ=$(wildcard ../../con2db/*.o)
-con2db_OBJ=$(wildcard ../service/database/*.o)
-con2redis_OBJ=$(wildcard ../service/redis/obj/*.o)
+con2db_OBJ=$(wildcard ../database/*.o)
+con2redis_OBJ=$(wildcard ../redis/obj/*.o)
 classes_OBJ=$(wildcard ../../classes/obj/*.o)
 utils_OBJ=$(wildcard ../../shared/obj/*.o)
 
@@ -30,16 +30,16 @@ create_dirs:
 	mkdir -p $(ODIR)
 
 con2db:
-	$(MAKE) -C ../service/database/
+	$(MAKE) -C ../database/
 
 con2redis:
-	$(MAKE) -C ../service/redis/
+	$(MAKE) -C ../redis/
 
 classes:
-	$(MAKE) -C ../classes/
+	$(MAKE) -C ../../classes/
 
 utils:
-	$(MAKE) -C ../shared/
+	$(MAKE) -C ../../shared/
 
 $(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)

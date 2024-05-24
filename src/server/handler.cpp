@@ -66,7 +66,7 @@ bool Handler::readFromFunctions(std::string* outstr, int* idClient){
     std::string out_str;
 
     for (i = 0; i < num_types; i++) {
-        // reply = RedisCommand(c2r, "XREADGROUP GROUP main handler COUNT 1 STREAMS %s-out >", types[i].c_str());
+        reply = RedisCommand(c2r, "XREADGROUP GROUP main handler COUNT 1 STREAMS %s-out >", types[i].c_str());
         assertReply(c2r, reply);
         if (ReadNumStreams(reply) == 0)     // Se vuoto, controlla il prossimo gestore
             continue;

@@ -15,10 +15,12 @@ class Delivery {
         char *id = NULL;
         char *orderid = NULL;
         char *courier = NULL;
+        char *date = NULL;
         char *status = NULL;
 
         Delivery(char* order_id, char* courier_id, char* order_status);
         Delivery(char* delivery_id, char* update_status); // costruttore per aggiornare lo stato dell'ordine
+        Delivery(char* delivery_id, char* order_id, char* courier_id, char* delivery_date, char* order_status);
 
         ~Delivery();
 

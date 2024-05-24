@@ -50,7 +50,7 @@ Product* Product::from_stream(redisReply* reply, int stream_num, int msg_num) {
     char description[PRMTRSIZE];
     char price_tag[PRMTRSIZE];
     char seller[PRMTRSIZE];
-    char warehouse[PRMTRSIZE]
+    char warehouse[PRMTRSIZE];
 
     for (int field_num = 2; field_num < ReadStreamMsgNumVal(reply, stream_num, msg_num); field_num += 2) {
         ReadStreamMsgVal(reply, stream_num, msg_num, field_num, key);

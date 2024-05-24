@@ -19,6 +19,21 @@ Delivery::Delivery(char* delivery_id, char* update_status) {
     strcpy(status, update_status);
 }
 
+Delivery::Delivery(char* delivery_id, char* order_id, char* courier_id, char* delivery_date, char* order_status) {
+    id = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    date = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    orderid = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    courier = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    status = (char*) malloc(sizeof(char) * PRMTRSIZE);
+
+    strcpy(date, delivery_date);
+    strcpy(orderid, order_id);
+    strcpy(courier, courier_id);
+    strcpy(id, delivery_id);
+    strcpy(status, order_status);
+}
+
+
 
 Delivery::~Delivery(){
     free(id);
@@ -42,7 +57,7 @@ Delivery* Delivery::from_stream(redisReply* reply, int stream_num, int msg_num) 
         ReadStreamMsgVal(reply, stream_num, msg_num, field + 1, value);
                     
         if (!strcmp(key, "status")) {
-            sprintf(id, "%s", value);
+            sprintf(status, "%s", value); //cambiato id con status
 
         } else if (!strcmp(key, "orderid")) {
             sprintf(orderid, "%s", value);
@@ -90,23 +105,23 @@ Delivery* Delivery::update_from_stream(redisReply* reply, int stream_num, int ms
 ////// query del database
 
 std::string Delivery::to_insert_query() {
-    std::string str_id = str(id);
-    std::string str_courier = str(courier);
-    std::string str_order = str(orderid);
+    std::string str_id = id;
+    std::string str_courier = courier;
+    std::string str_order = orderid;
 
-    auto current_timestamp = std::chrono::system_clock::now();
-    std::time_t current_time = std::chrono::system_clock::to_time_t(current_timestamp);
-    std::string current_date = std::ctime(&current_time); // solo ctime(&current_time);???? TO DO
+    //auto current_timestamp = std::chrono::system_clock::now();
+    //std::time_t current_time = std::chrono::system_clock::to_time_t(current_timestamp);
+    //std::string current_date = std::ctime(&current_time); // solo ctime(&current_time);???? TO DO
 
-    //std::string current_date = get_current_timestamp_as_string();
+    std::string current_date = get_current_timestamp_as_string();
 
     return "INSERT INTO Delivery (id, orderid, courier, date) VALUES (\'" + str_id + "\', \'" + str_order + "\', \'" + str_courier + "\', \'" + current_date + "\')";
 }
 
 
 std::string Delivery::to_update_query() {
-    std::string str_id = str(id);
-    std::string str_status = str(status);
+    std::string str_id = id;
+    std::string str_status = status;
 
     return "UPDATE Delivery SET statusOrder = \'" + str_status + "\', WHERE id = \'" + str_id + "\'";
 }

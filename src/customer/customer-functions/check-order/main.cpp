@@ -7,7 +7,7 @@ int main() {
 
     char query[QUERYSIZE], msg_id[MSGIDSIZE], first_key[KEYSIZE], client_id[VALUESIZE], second_key[KEYSIZE], order_id[VALUESIZE];
 
-    Con2DB db(POSTGRESQL_SERVER, POSTGRESQL_PORT, POSTGRESQL_USER, POSTGRESQL_PSW, POSTGRESQL_DBNAME);
+    DbConnection db(POSTGRESQL_SERVER, POSTGRESQL_PORT, POSTGRESQL_USER, POSTGRESQL_PSW, POSTGRESQL_DBNAME);
     redConn = redisConnect(REDIS_SERVER, REDIS_PORT);
 
     while(true) {
@@ -41,7 +41,7 @@ int main() {
             continue;
         }
 
-        sprintf(query, "SELECT * FROM OrderedProduct JOIN Delivery ON Delivery.orderid = OrderedProduct.id AND OrderedProduct.id = %s;", order_id)
+        sprintf(query, "SELECT * FROM OrderedProduct JOIN Delivery ON Delivery.orderid = OrderedProduct.id AND OrderedProduct.id = %s;", order_id);
 
         query_res = db.RunQuery(query, true);
 
@@ -66,7 +66,7 @@ int main() {
             orders.push_back(order);
 
             Delivery * delivery;
-            delivery = new delivery(PQgetvalue(query_res, row, PQfnumber(query_res, "id")),
+            delivery = new Delivery(PQgetvalue(query_res, row, PQfnumber(query_res, "id")),
                                     PQgetvalue(query_res, row, PQfnumber(query_res, "orderid")),
                                     PQgetvalue(query_res, row, PQfnumber(query_res, "courier")),
                                     PQgetvalue(query_res, row, PQfnumber(query_res, "date")),
@@ -92,7 +92,7 @@ int main() {
         }
     }
 
-    db.finish();
+    db.disconnectFromDatabase();
 
     return 0;
 }

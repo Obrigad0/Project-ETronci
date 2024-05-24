@@ -19,21 +19,18 @@
 #include <signal.h>
 
 #include "handler.h"
-#include "../../service/database/dbConnection.h"
+#include "../service/database/dbConnection.h"
 
 #define MAX_CLIENT 100
 #define TRUE 1 
 #define FALSE 0 
 
-// TO DO CAPIRE SE QUESTE COSTANTI SONO UTILIZZATE IN ALTRE PARTI (OLTRE ALLA FUNZIONE ALLA FINE DI QUESTO CODICE [ho sostituito le costanti con i valori]
-// nota (nicolas): ogni main.h delle funzioni dei tre attori principali ha delle costanti simili, magari possiamo mettere in un file shared tutti quelli che
-// hanno i valori uguali (se non sbaglio solo le port cambiano)
+
 #define POSTGRESQL_SERVER "localhost"
 #define POSTGRESQL_PORT "5432"
 #define POSTGRESQL_USER "handler"
 #define POSTGRESQL_PSW "handler"
 #define POSTGRESQL_DBNAME "logdb"
-// se non presenti da altre parti levare!!! TO DO
 
 class Server {
     public:
@@ -63,14 +60,14 @@ class Server {
         void sendClientResponse(int client_id, std::string out_str); //gestisce invio dati al client (ex send_response TO DO LEVARE DAL COMMENTO)
         void chiudiConnessione();
 
-        DbConnection db = DbConnection("localhost", "5432", "handler", "handler", "logdb"); // ex log_db TO DO L.C.
-        PGresult *resp; // ex query_res TO DO L.C.
+        DbConnection db = DbConnection("localhost", "5432", "handler", "handler", "logdb");
+        PGresult *resp;
         const char* server; 
-        int socket_server; // ex sockfd TO DO L.C.
-        int socket_port; // ex sockPort TO DO L.C.
-        fd_set current_set;  // capire cosa fa TO DO
-        int max_fd;  // capire cosa fa TO DO
-        Handler* handler; //TO DO
+        int socket_server;
+        int socket_port;
+        fd_set current_set;
+        int max_fd;
+        Handler* handler;
 
 
 

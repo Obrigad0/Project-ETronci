@@ -16,7 +16,7 @@ DEPS = $(wildcard $(IDIR)/*.h)
 SRC = $(wildcard *.cpp)
 OBJ = $(patsubst %.cpp, $(ODIR)/%.o, $(SRC))
 
-con2redis_OBJ=$(wildcard ../../service/redis/obj/*.o)
+con2redis_OBJ=$(wildcard ../service/redis/obj/*.o)
 
 #all:	$(ODIR)/%.o
 
@@ -26,7 +26,7 @@ create_dirs:
 	mkdir -p $(ODIR)
 
 con2redis:
-	$(MAKE) -C ../../service/redis/
+	$(MAKE) -C ../service/redis/
 
 $(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)

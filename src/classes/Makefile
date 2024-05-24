@@ -13,7 +13,7 @@ DEPS = $(wildcard $(IDIR)/*.h)
 SRC = $(wildcard *.cpp)
 OBJ = $(patsubst %.cpp, $(ODIR)/%.o, $(SRC))
 
-utils_OBJ=$(wildcard ../../../../shared/obj/*.o)
+utils_OBJ=$(wildcard ../shared/obj/*.o)
 
 #all:	$(ODIR)/%.o
 

@@ -8,13 +8,11 @@ extern "C" {
 // HIREDIS e' scritta in C
 
 
-// capire se levare dbg_log
 #define dbg_log(fmt, ... )			\
     do { \
         fprintf(stderr, "%s:%d : " fmt "\n", __FILE__, __LINE__,__VA_ARGS__); \
     } while (0);
 
-// capire se levare dbg_abort
 #define dbg_abort(fmt, ...) \
     do { \
         dbg_log(fmt, __VA_ARGS__); exit(-1); \
