@@ -71,7 +71,7 @@ run_main customer-functions/check-order/bin
 run_main customer-functions/make-order/bin
 run_main customer-functions/register-customer/bin
 run_main customer-functions/review-order/bin
-run_main customer-functions/search-product/bin
+run_main customer-functions/search-products/bin
 
 
 printf "############## Seller... ##############\n\n"

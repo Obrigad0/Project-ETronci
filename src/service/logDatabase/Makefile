@@ -1,8 +1,8 @@
 
 #IDIR=../hdr
 IDIR=.
-ODIR=../obj
-BDIR=../bin
+ODIR= ./obj
+BDIR= ./bin
 
 CC=g++
 # use this when connecting to Postgresql (library lpq)
@@ -23,22 +23,22 @@ con2redis_OBJ=$(wildcard ../redis/obj/*.o)
 classes_OBJ=$(wildcard ../../classes/obj/*.o)
 utils_OBJ=$(wildcard ../../shared/obj/*.o)
 
-all:	create_dirs con2db con2redis classes utils $(BDIR)/main
+all:	create_dirs database redis classes shared $(BDIR)/main
 
 create_dirs:
 	mkdir -p $(BDIR)
 	mkdir -p $(ODIR)
 
-con2db:
+database:
 	$(MAKE) -C ../database/
 
-con2redis:
+redis:
 	$(MAKE) -C ../redis/
 
 classes:
 	$(MAKE) -C ../../classes/
 
-utils:
+shared:
 	$(MAKE) -C ../../shared/
 
 $(ODIR)/%.o: %.cpp $(DEPS)

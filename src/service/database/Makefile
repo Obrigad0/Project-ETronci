@@ -13,7 +13,7 @@ objects := $(patsubst %.cpp,%.o,$(wildcard *.cpp))
 all:	$(objects)
 
 %.o:	%.cpp $(DEPS) 
-	$(CC) -c -o $@ $< $(CPPFLAGS) 
+	    $(CC) -c -o $@ $< $(CPPFLAGS)
 
 clean:
-	rm *.o 
+	    rm *.o

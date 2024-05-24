@@ -86,9 +86,9 @@ make_folder server
 
 printf "############## Logdb ##############\n\n"
 
-set_current_root src/service
+set_current_root src
 
-make_folder logDatabase
+make_folder service/logDatabase
 
 printf "############## Customer ##############\n\n"
 

@@ -1,8 +1,7 @@
 #IDIR=../hdr
 IDIR=.
-ODIR=../obj
-BDIR=../bin
-
+ODIR= ./obj
+BDIR= ./bin
 CC=g++
 # per connettersi a PostgreSQL
 #CFLAGS=-std=c++11 -I. -I$(IDIR) -I/usr/include/postgresql -lpq -lm
@@ -17,12 +16,12 @@ utils_OBJ=$(wildcard ../shared/obj/*.o)
 
 #all:	$(ODIR)/%.o
 
-all:	create_dirs utils $(ODIR)/$(OBJ)
+all:	create_dirs shared $(ODIR)/$(OBJ)
 
 create_dirs:
 	mkdir -p $(ODIR)
 
-utils:
+shared:
 	$(MAKE) -C ../shared/
 
 $(ODIR)/%.o: %.cpp $(DEPS)

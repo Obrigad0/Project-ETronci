@@ -55,9 +55,9 @@ class Server {
 
     private:
 
-        void addNewClients(); // aggiunta di un nuovo client alla connessione  (ex add_new_clients() TO DO LEVARE DAL COMMENTO)
-        void receiveClientData(int i);  // gestione ricezione dati dal client (i file descriptor) (ex receive TO DO LEVARE DAL COMMENTO)
-        void sendClientResponse(int client_id, std::string out_str); //gestisce invio dati al client (ex send_response TO DO LEVARE DAL COMMENTO)
+        void addNewClients(); // aggiunta di un nuovo client alla connessione
+        void receiveClientData(int i);  // gestione ricezione dati dal client (i file descriptor)
+        void sendClientResponse(int client_id, std::string out_str); //gestisce invio dati al client
         void chiudiConnessione();
 
         DbConnection db = DbConnection("localhost", "5432", "handler", "handler", "logdb");

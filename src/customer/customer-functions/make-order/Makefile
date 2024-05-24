@@ -1,6 +1,6 @@
 IDIR=.
-ODIR=../obj
-BDIR=../bin
+ODIR= ./obj
+BDIR= ./bin
 
 CC=g++
 # per connettersi a PostgreSQL
@@ -13,21 +13,21 @@ SRC = $(wildcard *.cpp)
 OBJ = $(patsubst %.cpp, $(ODIR)/%.o, $(SRC))
 
 DBConn_OBJ = $(wildcard ../../../service/database/*.o)
-redConn_OBJ = $(wildcard ../../../service/redis/*.o)
-classes_OBJ = $(wildcard ../../../classes/*.o)
-shared_OBJ = $(wildcard ../../../shared/*.o)
+redConn_OBJ = $(wildcard ../../../service/redis/obj/*.o)
+classes_OBJ = $(wildcard ../../../classes/obj/*.o)
+shared_OBJ = $(wildcard ../../../shared/obj/*.o)
 
-all: create_dirs DBConn redConn classes shared $(BDIR)/main
+all: create_dirs database redis classes shared $(BDIR)/main
 
 
 create_dirs:
 	mkdir -p $(BDIR)
 	mkdir -p $(ODIR)
 
-DBConn:
+database:
 	$(MAKE) -C ../../../service/database
 
-redConn:
+redis:
 	$(MAKE) -C ../../../service/redis
 
 classes:
