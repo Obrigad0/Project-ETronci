@@ -48,7 +48,7 @@ Server::Server(const char* id, int port, const char* redis_ip, int redis_port, s
         throw std::runtime_error(std::string("Errore nell'ascolto dal socket per il server: ") + server);
     }
 
-
+    handler = new Handler(redis_ip, redis_port, client_requests, req_num);
 
 }
 
@@ -130,6 +130,7 @@ void Server::run(){
 
     std::cout << "Running " << server << " server" << std::endl;
 
+
     while(!stop_server) {
         // Ciclo principale del server, continua finché stop_server è false
 
@@ -165,12 +166,20 @@ void Server::run(){
 
         response = true;
         while(response){
+
             respTocli = "";
             idClient = -1;
 
+
             response = handler->readFromFunctions(&respTocli, &idClient);
+            std::cout << "qui dopo l'handler" << std::endl;
+
+
+
 
             if(response){
+                std::cout << "c'e' una risposta del client la gestisco" << std::endl;
+
                 sendClientResponse(idClient, respTocli);
             }
         }

@@ -14,7 +14,7 @@ VALUES
     ('SportShopEU.com', '12345678912', 'Prodotti sportivi in tutta Europa!','sportShop@gmail.com'),
     ('ITComputerStore.it', '12345678913', 'I migliori calcolatori a prezzi stracciati!','ITcomputer@gmail.com') ;
 
-INSERT INTO Warehouse (name, mail)
+INSERT INTO Warehouse (name,address)
 VALUES
     ('Roma1','via fuori Il Raccordo 69'),
     ('Milano1','via poco fuori Milano 71'),
@@ -32,6 +32,6 @@ VALUES
     ('Prima Maglia', 'Prima maglia Lazio 23/24', 95.99, 1, 1),
     ('Cioco rotella', 'Buonissima ruota di cioccolato da 10kg!', 30.00, 2, 3),
     ('Scarpe da corsa', 'Scarpe da corsa molto veloci!', 199.99 , 3, 2),
-    ('Super computer quantisitico', 'Computer quantistico creato da google!', 'Fitness tracking smartwatch', 799.99 , 3, 2);
+    ('Super computer quantisitico', 'Computer quantistico creato da google!', 799.99 , 3, 2);
 
 -- non presenti OrederdProduct, Delivery e Review

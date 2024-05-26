@@ -65,7 +65,9 @@ bool Handler::readFromFunctions(std::string* outstr, int* idClient){
     std::string tmp_str;
     std::string out_str;
 
+
     for (i = 0; i < num_types; i++) {
+
         reply = RedisCommand(c2r, "XREADGROUP GROUP main handler COUNT 1 STREAMS %s-out >", types[i].c_str());
         assertReply(c2r, reply);
         if (ReadNumStreams(reply) == 0)     // Se vuoto, controlla il prossimo gestore
@@ -107,7 +109,9 @@ bool Handler::readFromFunctions(std::string* outstr, int* idClient){
         tmp_str = resp_status;
         out_str = tmp_str + "\n";
 
+
         while (curr_row < num_rows_int - 1) {
+
             reply = RedisCommand(c2r, "XREADGROUP GROUP main handler BLOCK 0 COUNT 1 STREAMS %s-out >", types[i].c_str());
 
             assertReply(c2r, reply);
@@ -141,12 +145,15 @@ bool Handler::readFromFunctions(std::string* outstr, int* idClient){
             }
 
             out_str = out_str + "}\n";
+
         }
 
         *outstr = out_str;
+        std::cout << "fine rff handler true" << std::endl;
 
         return true;
     }
+    std::cout << "fine rff handler false" << std::endl;
 
     return false;
 

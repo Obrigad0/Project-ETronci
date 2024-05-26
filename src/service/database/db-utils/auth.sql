@@ -12,7 +12,7 @@ ALTER TABLE Seller OWNER TO :admin;
 ALTER TABLE Courier OWNER TO :admin;
 ALTER TABLE Product OWNER TO :admin;
 ALTER TABLE Warehouse OWNER TO :admin;
-ALTER TABLE OrderedProducts OWNER TO :admin;
+ALTER TABLE OrderedProduct OWNER TO :admin;
 ALTER TABLE Delivery OWNER TO :admin;
 ALTER TABLE Review OWNER TO :admin;
  --  TABLE blank OWNER TO :admin;
@@ -29,7 +29,7 @@ GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO :seller;
 
 -- courier
 
-GRANT SELECT ON OrderedProducts TO :courier;
+GRANT SELECT ON OrderedProduct TO :courier;
 GRANT INSERT, UPDATE, SELECT ON Delivery TO :courier;
 
 -- seller
@@ -37,7 +37,7 @@ GRANT INSERT, UPDATE, SELECT ON Delivery TO :courier;
 GRANT INSERT, UPDATE, SELECT, DELETE ON Product TO :seller;
 GRANT INSERT, SELECT ON Product TO :seller;
 GRANT INSERT ON Seller TO :seller;
-GRANT SELECT ON OrderedProducts TO :seller;
+GRANT SELECT ON OrderedProduct TO :seller;
 
 -- customer
 
@@ -45,4 +45,4 @@ GRANT INSERT ON Review TO :customer;
 GRANT SELECT ON Product TO :customer;
 GRANT SELECT ON Delivery TO :customer;
 GRANT SELECT, INSERT ON Customer TO :customer;
-GRANT SELECT, INSERT ON OrderedProducts TO :customer;
+GRANT SELECT, INSERT ON OrderedProduct TO :customer;

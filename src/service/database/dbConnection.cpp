@@ -66,6 +66,7 @@ PGresult* DbConnection::RunQuery(char* query, bool moreValue) {
     PGresult* t_resp; // variabile per memorizzare il risultato delle query di inizio e fine transazione
     char sqlCmd[7]; //array di caratteri per memorizzare i comandi SQL di inizio e fine transazione
 
+
     // Inizia una transazione
     sprintf(sqlCmd, "BEGIN"); //NON CAMBIARE "BEGIN"
     t_resp = RunActionQuery(sqlCmd);

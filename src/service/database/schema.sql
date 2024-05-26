@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS OrderedProduct (
     customer INTEGER NOT NULL,
     product INTEGER NOT NULL,
     quantity INTEGER NOT NULL,
-    date DATETIME NOT NULL,
+    date TIMESTAMP NOT NULL,
     zip_code String NOT NULL,
     address String NOT NULL,
 
