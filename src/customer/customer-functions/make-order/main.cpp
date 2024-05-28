@@ -45,7 +45,7 @@ int main() {
             continue;
         }
 
-        sprintf(query, "INSERT INTO OrderedProduct (date, product, quantity, customer, zip_code, address) VALUES (\'%s\', \'%s\', %s, \'%s\', \'%s\', \'%s\')", order->date, order->quantity, order->product, order->customer, order->zip_code, order->address);
+        sprintf(query, "INSERT INTO OrderedProduct (date, product, quantity, customer, zip_code, address) VALUES (\'%s\', \'%s\', %s, \'%s\', \'%s\', \'%s\')", order->date,order->product, order->quantity, order->customer, order->zip_code, order->address);
 
         query_res = db.RunQuery(query, true);
 

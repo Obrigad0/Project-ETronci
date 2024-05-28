@@ -29,9 +29,10 @@ GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO :seller;
 
 -- courier
 
-GRANT SELECT ON OrderedProduct TO :courier;
+GRANT INSERT, UPDATE, SELECT ON  OrderedProduct TO :courier;
+GRANT INSERT, UPDATE, SELECT ON  Product TO :courier;
 GRANT INSERT, UPDATE, SELECT ON Delivery TO :courier;
-
+GRANT INSERT, UPDATE, SELECT ON Courier TO :courier;
 -- seller
 
 GRANT INSERT, UPDATE, SELECT, DELETE ON Product TO :seller;

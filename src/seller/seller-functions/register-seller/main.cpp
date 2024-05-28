@@ -44,9 +44,13 @@ int main() {
             send_response_status(redConn, WRITE_STREAM, client_id, "BAD_REQUEST", msg_id, 0);
             continue;
         }
+        //std::string n = seller->name;
+        //std::string d = seller->descrpition;
+        //n = replace_substring(n, REDISSPACE, BLANKSPACE);
+        //d = replace_substring(d, REDISSPACE, BLANKSPACE);
 
-        sprintf(query, "INSERT INTO Seller (name, piva, description, mail) VALUES (\'%s\', \'%s\', \'%s\', \'%s\')", 
-                        seller->name, seller->piva, seller->descrpition, seller->mail);
+        sprintf(query, "INSERT INTO Seller (name, piva, description, mail) VALUES (\'%s\', \'%s\', \'%s\', \'%s\')",
+                seller->name, seller->piva,seller->descrpition, seller->mail);
 
         query_res = db.RunQuery(query, false);
 

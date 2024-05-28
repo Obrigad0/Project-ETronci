@@ -1,5 +1,5 @@
 #include "main.h"
-
+#include <iostream>
 int main() {
     redisContext *redConn;
     redisReply *redReply;
@@ -46,17 +46,18 @@ int main() {
             continue;
         }
 
-        query = "SELECT * FROM Delivery WHERE id = " + std::string(delivery->id);
+        //query = "SELECT * FROM Delivery WHERE id = " + std::string(delivery->id);
         
-        query_res = db.RunQuery((char *) query.c_str(), true);
+        //query_res = db.RunQuery((char *) query.c_str(), true);
 
-        if ((PQresultStatus(query_res) != PGRES_COMMAND_OK && PQresultStatus(query_res) != PGRES_TUPLES_OK) || (PQntuples(query_res) == 0)) {
-            send_response_status(redConn, WRITE_STREAM, client_id, "DB_ERROR", msg_id, 0);
-            continue;
-        }
+        //if ((PQresultStatus(query_res) != PGRES_COMMAND_OK && PQresultStatus(query_res) != PGRES_TUPLES_OK) || (PQntuples(query_res) == 0)) {
+        //    send_response_status(redConn, WRITE_STREAM, client_id, "DB_ERROR", msg_id, 0);
+        //    continue;
+        //}
 
         query = delivery->to_update_query();
-        
+        std::cout << "Query : "<< query << std::endl;
+
         query_res = db.RunQuery((char *) query.c_str(), false);
 
         if (PQresultStatus(query_res) != PGRES_COMMAND_OK && PQresultStatus(query_res) != PGRES_TUPLES_OK) {

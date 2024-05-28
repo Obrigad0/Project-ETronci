@@ -1,5 +1,5 @@
 #include "dbConnection.h"
-
+#include <iostream>
 //connessione al database
 DbConnection::DbConnection(const char *hostname, const char *port, const char *username, const char *password,const char *dbname) {
 
@@ -92,6 +92,7 @@ PGresult* DbConnection::RunQuery(char* query, bool moreValue) {
 
     // Verifica se si sono verificati errori durante l'esecuzione della query
     if(PQresultStatus(resp) != PGRES_COMMAND_OK && PQresultStatus(resp) != PGRES_TUPLES_OK){
+        std::cout << "errire query!!: "<< query << std::endl;
         PQclear(t_resp);
         PQclear(resp);
         return resp;

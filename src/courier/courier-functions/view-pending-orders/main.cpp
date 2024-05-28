@@ -43,7 +43,7 @@ int main() {
             continue;
         }
 
-        sprintf(query, "SELECT * FROM OrderedProduct WHERE id NOT IN (SELECT orderid FROM Delivery) AND warehouse = %s", courier_warehouse);
+        sprintf(query, "SELECT op.* FROM OrderedProduct op JOIN Product p ON op.product = p.id WHERE op.id NOT IN (SELECT orderId FROM Delivery) AND p.warehouse = %s;", courier_warehouse);
 
         query_res = db.RunQuery(query, true);
         if (PQresultStatus(query_res) != PGRES_COMMAND_OK && PQresultStatus(query_res) != PGRES_TUPLES_OK) {

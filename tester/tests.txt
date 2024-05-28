@@ -2,12 +2,12 @@
 SELLER tests
 
 
-register-seller name AziendaMIAO piva uuhhuuhhuuh description questa_azienda_vende_croccantini_per_gatti mail miaomiao@gmail.com 
+register-seller name Azienda##MIAO piva 12345678915 description questa##azienda##vende##croccantini##per##gatti mail miaomiao@gmail.com //FUNZIONA
 
-add-product name croccantini_buoni description gnam_gnam price_tag 4.99 seller 1 warehouse 2
-add-product name croccantini_pessimi description eww_che_schifo! price_tag 6.49 seller 1 warehouse 3
+add-product name croccantini##buoni description gnam##gnam price_tag 4.99 seller 1 warehouse 2 //FUNZIONA
+add-product name croccantini##pessimi description eww##che##schifo! price_tag 6.49 seller 1 warehouse 2 //FUNZIONA
 
-update-product id 3 description nuova_descrizione_piu_bella_di_prima
+update-product id 3 description nuova##descrizione##piu##bella##di##prima //FUNZIONA
 
 
 
@@ -15,16 +15,15 @@ update-product id 3 description nuova_descrizione_piu_bella_di_prima
 COURIER tests
 
 
-register-courier name Gianfilippo mail gfilippo@gmail.com warehouse 2
-register-courier name Benito mail benny@gmail.com warehouse 3
+register-courier name Gianfilippo mail gfilippo@gmail.com warehouse 2 //FUNZIONA
+register-courier name Benito mail benny@gmail.com warehouse 3 //FUNZIONA
 
-take-delivery orderId 2 courier 1 date 01/06/2024 status shipped
-take-delivery orderId 3 courier 2 date 01/06/2024 status not_shipped
+take-delivery orderid 2 courier 2 status shipped //FUNZIONA
 
-update-delivery-status id 1 status delivered
-update-delivery-status id 2 status shipped
+update-delivery-status id 1 status end //FUNZIONA
+update-delivery-status id 2 status start //FUNZIONA
 
-view-pending-orders courier_warehouse 2
+view-pending-orders courier_warehouse 2 //FUNZIONA
 
 
 
@@ -32,18 +31,16 @@ view-pending-orders courier_warehouse 2
 CUSTOMER tests
 
 
-register-costumer name Bartolomeo mail baba@yahoo.com 
-register-costumer name Mimmolo mail mimmo07campione@gmail.com 
+register-customer name Bartolomeo mail baba@yahoo.com  //FUNZIONA
+register-customer name Mimmolo mail mimmo07campione@gmail.com  //FUNZIONA
 
-search-products product_name croccant
-search-products product_name 
+search-products product_name croccant //FUNZIONA
 
-make-order customer 2 product 1 quantity 27 date 27/05/2024 zip_code 00016 address Via_miao_miao_21
-make-order customer 2 product 2 quantity 3 date 26/05/2024 zip_code 00015 address Piazza_puzzolosa_4
+make-order customer 2 product 1 quantity 27  zip_code 00016 address Via_miao_miao_21 //Funziona
 
-check-order order_id 1
 
-review-order customer 2 product 1 stars 5 comment WOOOW_NO_VABBE_TROPPO_BUONI
-review-order customer 2 product 2 stars 2 comment eww_che_schifo
+check-order order_id 1  //pisciata
+
+review-order customer 2 product 1 stars 5 comment WOOOW_NO_VABBE_TROPPO_BUONI //FUNZIONA
 
 

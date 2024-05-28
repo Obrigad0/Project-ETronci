@@ -1,11 +1,11 @@
 #include "main.h"
-
+#include <iostream>
 int main() {
     redisContext *redConn;
     redisReply *redReply;
     PGresult *query_res;
 
-    char query[QUERYSIZE], msg_id[MSGIDSIZE], first_key[KEYSIZE], client_id[VALUESIZE], second_key[KEYSIZE], order_id[VALUESIZE];
+    char query[QUERYSIZE], msg_id[MSGIDSIZE], first_key[KEYSIZE], client_id[VALUESIZE], second_key[KEYSIZE], order_id[PRMTRSIZE];
 
     DbConnection db(POSTGRESQL_SERVER, POSTGRESQL_PORT, POSTGRESQL_USER, POSTGRESQL_PSW, POSTGRESQL_DBNAME);
     redConn = redisConnect(REDIS_SERVER, REDIS_PORT);
@@ -28,6 +28,7 @@ int main() {
         ReadStreamMsgVal(redReply, 0, 0, 1, client_id); 
 
         if(strcmp(first_key, "client_id")){
+            std::cout << "Errore client id" << std::endl;
             send_response_status(redConn, WRITE_STREAM, client_id, "BAD_REQUEST", msg_id, 0);
             continue;
         }
@@ -37,15 +38,21 @@ int main() {
         ReadStreamMsgVal(redReply, 0, 0, 3, order_id);
 
         if(strcmp(second_key, "order_id") || (ReadStreamMsgNumVal(redReply, 0, 0) > 4)){
+            std::cout << "Errore order id" << std::endl;
+
             send_response_status(redConn, WRITE_STREAM, client_id, "BAD_REQUEST", msg_id, 0);
             continue;
         }
+        std::cout << "order id:"<< order_id << std::endl;
 
-        sprintf(query, "SELECT * FROM OrderedProduct JOIN Delivery ON Delivery.orderid = OrderedProduct.id AND OrderedProduct.id = %s;", order_id);
+        sprintf(query, "SELECT * FROM OrderedProduct JOIN Delivery ON Delivery.orderId = OrderedProduct.id AND OrderedProduct.id = %s", order_id);
+
+        std::cout << "ecco la query: "<< query << std::endl;
 
         query_res = db.RunQuery(query, true);
-
+        std::cout << "Numero di righe in output : " << PQntuples(query_res) << std::endl;
         if ((PQresultStatus(query_res) != PGRES_COMMAND_OK && PQresultStatus(query_res) != PGRES_TUPLES_OK) || (PQntuples(query_res) == 0)) {
+            std::cout << "Errore query" << std::endl;
             send_response_status(redConn, WRITE_STREAM, client_id, "BAD_REQUEST", msg_id, 0);
             continue;
         }
