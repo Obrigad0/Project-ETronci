@@ -23,12 +23,14 @@ Server::Server(const char* id, int port, const char* redis_ip, int redis_port, s
         close(socket_server);
         exit(-1);
     }
-
     // Imposto il socket in modalita' non bloccante
     int flags = fcntl(socket_server,F_GETFL, 0);
     flags |= O_NONBLOCK;
 
+    if (fcntl(socket_server, F_SETFL, flags) == -1){
+        throw std::runtime_error("ERORE SERVER NON IMPOSTATO A NON BLOCCANTE!!!!!");
 
+    }
     //configurazione server
 
     sockaddr_in serverConf;
@@ -71,7 +73,7 @@ Server::~Server(){
             // solo se disconnection_instant è attualmente NULL
             sprintf(query, "UPDATE Client SET disconnection_instant = CURRENT_TIMESTAMP WHERE server_name = \'%s\' AND file_descriptor = %d AND disconnection_instant IS NULL", server, i);
 
-            // Esegue la query sul database utilizzando il meTO DO RunQuery dell'oggetto db
+            // Esegue la query sul database utilizzando il metodo RunQuery dell'oggetto db
             // Il secondo parametro false indica che la query non restituirà risultati (è un UPDATE, non un SELECT)
             resp = db.RunQuery(query, false);
 
@@ -91,7 +93,7 @@ void gestioneSegnaleSpegnimento(int s){
 void Server::run(){
 
     struct sigaction sigHandler; //struttura sigaction per gestire i segnali
-
+    int i;
     fd_set working_set; // set di file descriptor
     int returnSistem; // valore di ritorno delle chiamate di sistema
     int numreq; // numero di richieste pronte
@@ -148,7 +150,7 @@ void Server::run(){
 
         numreq = returnSistem;
 
-        for (int i = 0; i <= max_fd && numreq > 0; ++i) {
+        for (i = 0; i <= max_fd && numreq > 0; ++i) {
             // Ciclo per scorrere i file descriptor pronti
 
             if ((i != socket_server) && FD_ISSET(i, &working_set)) {
@@ -173,7 +175,6 @@ void Server::run(){
 
             response = handler->readFromFunctions(&respTocli, &idClient);
             std::cout << "qui dopo l'handler" << std::endl;
-
 
 
 
@@ -231,7 +232,7 @@ void Server::addNewClients(){
 
     do{
         newClient = accept(socket_server, NULL, NULL); // accetta nuove connessioni in entrata
-        
+
         if (newClient < 0) { // c'è stato un errore, stacca stacca
 
             if (errno != EWOULDBLOCK) {
@@ -240,7 +241,6 @@ void Server::addNewClients(){
             }
             break;
         }
-
         // accept ha avuto successo, bisogna registrare nel database l'accesso del client
         sprintf(query, "INSERT INTO Client(server_name, file_descriptor, connection_instant) VALUES (\'%s\', %d, CURRENT_TIMESTAMP)", server, newClient);
         resp = db.RunQuery(query, false);

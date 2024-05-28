@@ -1,6 +1,10 @@
+#ifndef redisConnection_h
+#define redisConnection_h
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <cstring>
+#include <stdio.h>
 
 extern "C" {
 #include <hiredis/hiredis.h>
@@ -17,7 +21,6 @@ extern "C" {
     do { \
         dbg_log(fmt, __VA_ARGS__); exit(-1); \
     } while (0)
-
 
 #define RedisCommand(fmt, ...)			\
   (redisReply*) redisCommand(fmt, __VA_ARGS__)
@@ -45,3 +48,5 @@ int ReadStreamMsgNumVal(redisReply *r, long unsigned int streamnum, int msgnum);
 int ReadStreamMsgVal(redisReply *r, long unsigned int streamnum, int msgnum, int entry, char *fval);
 
 void print_reply_types();
+
+#endif

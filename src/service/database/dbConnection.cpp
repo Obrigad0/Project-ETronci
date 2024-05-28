@@ -1,4 +1,5 @@
 #include "dbConnection.h"
+#include <iostream>
 
 //connessione al database
 DbConnection::DbConnection(const char *hostname, const char *port, const char *username, const char *password,const char *dbname) {
@@ -37,7 +38,6 @@ PGresult* DbConnection::RunActionQuery(char *query){
     }
 
     PGresult *res = PQexec(dbConnection, query);
-
     if (PQresultStatus(res) != PGRES_COMMAND_OK) {
         fprintf(stderr, "RunActionQuery(): Errore nell'esecuzione di questa query: %s\n", query);
     }
@@ -65,6 +65,8 @@ PGresult* DbConnection::RunQuery(char* query, bool moreValue) {
 
     PGresult* t_resp; // variabile per memorizzare il risultato delle query di inizio e fine transazione
     char sqlCmd[7]; //array di caratteri per memorizzare i comandi SQL di inizio e fine transazione
+
+    std::cout << "Eseguo la query: "<< query << std::endl;
 
 
     // Inizia una transazione
