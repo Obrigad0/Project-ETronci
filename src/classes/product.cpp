@@ -90,7 +90,7 @@ Product* Product::from_stream(redisReply* reply, int stream_num, int msg_num) {
         }
     }
 
-    return new Product(id, name, description, price_tag, seller, warehouse);
+    return new Product(name, description, price_tag, seller, warehouse);
 }
 
 
