@@ -17,6 +17,21 @@ Product::Product(char* product_id, char* product_name, char* product_description
     strcpy(warehouse, product_warehouse);
 }
 
+Product::Product(char* product_name, char* product_description, char* product_price, char* product_seller, char* product_warehouse){
+
+    name = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    description = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    price_tag = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    seller = (char*) malloc(sizeof(char) * PRMTRSIZE);
+    warehouse = (char*) malloc(sizeof(char) * PRMTRSIZE);
+
+    strcpy(name, product_name);
+    strcpy(description, product_description);
+    strcpy(price_tag, product_price);
+    strcpy(seller, product_seller);
+    strcpy(warehouse, product_warehouse);
+}
+
 Product::Product(char* product_id, char* product_description){
 
     id = (char*) malloc(sizeof(char) * PRMTRSIZE);
@@ -45,7 +60,6 @@ Product* Product::from_stream(redisReply* reply, int stream_num, int msg_num) {
     char key[KEYSIZE];
     char value[PRMTRSIZE];
 
-    char id[PRMTRSIZE];
     char name[PRMTRSIZE];
     char description[PRMTRSIZE];
     char price_tag[PRMTRSIZE];
@@ -56,10 +70,7 @@ Product* Product::from_stream(redisReply* reply, int stream_num, int msg_num) {
         ReadStreamMsgVal(reply, stream_num, msg_num, field_num, key);
         ReadStreamMsgVal(reply, stream_num, msg_num, field_num + 1, value);
                     
-        if (!strcmp(key, "id")) {
-            sprintf(id, "%s", value);
-
-        } else if (!strcmp(key, "name")) {
+        if (!strcmp(key, "name")) {
             sprintf(name, "%s", value);
 
         } else if (!strcmp(key, "description")) {
@@ -114,7 +125,6 @@ Product* Product::update_from_stream(redisReply* reply, int stream_num, int msg_
 }
 
 std::string Product::to_insert_query() {
-    std::string str_id = id;
     std::string str_name = name;
     std::string str_description = description;
     std::string str_price = price_tag;
@@ -124,5 +134,5 @@ std::string Product::to_insert_query() {
     str_name = replace_substring(str_name, REDISSPACE, BLANKSPACE);
     str_description = replace_substring(str_description, REDISSPACE, BLANKSPACE);
 
-    return "INSERT INTO Product (id, name, description, price_tag, seller, warehouse) VALUES (\'" + str_id + "\', \'" + str_name + "\', \'" + str_description + "\', \'" + str_price + "\', \'" + str_seller + "\', \'" + str_warehouse + "\')";
+    return "INSERT INTO Product (name, description, price_tag, seller, warehouse) VALUES (\'" + str_name + "\', \'" + str_description + "\', \'" + str_price + "\', \'" + str_seller + "\', \'" + str_warehouse + "\')";
 }
