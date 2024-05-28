@@ -13,77 +13,62 @@ from param_value.stars import Stars
 
 
 requests = {
- "add-product" : [[("code", AlphaNumeric)],
-                  [("name", StringS)],
-                  [("description", StringL)],
-                  [("price", RealGEZ)]],
+    "register-seller" : [[("name", StringS)],
+                        [("piva", StringS)],
+                        [("description", StringS)],
+                        [("mail", StringS)]],
 
- "add-restock" : [[("quantity", IntGZ)],
-                  [("supplier", StringS)],
-                  [("product", AlphaNumeric)]],
+    "add-product" : [[("name", AlphaNumeric)],
+                    [("description", StringS)],
+                    [("price_tag", StringL)],
+                    [("seller", RealGEZ)],
+                    [("warehouse", RealGEZ)]],
 
- "add-supplier" : [[("business_name", StringS)]],
+    "update-product" : [[("id", IntGZ)],
+                        [("description", StringS)]],
 
- "add-customer" : [[("name", StringS)],
-                   [("surname", StringS)],
-                   [("email", Email)],
-                   [("phone-number", PhoneNumber)]],
+    ####
 
- "add-address" : [[("email", Email)],
-                  [("zip_code", AlphaNumeric)],
-                  [("street_number", AlphaNumeric)],
-                  [("street", StringM)],
-                  [("city", Identifier)]],
+    "register-courier" : [[("name", StringS)],
+                        [("mail", Email)],
+                        [("warehouse", Email)]],
+    
+    "take-delivery" : [[("orderId", StringS)],
+                        [("courier", Identifier)],
+                        [("date", AlphaNumeric)],
+                        [("status", AlphaNumeric)]],
+    
+    "update-delivery-status" : [[("id", AlphaNumeric)],
+                                [("status", Timestamp)]],
 
- "add-card" : [[("number", Card)],
-               [("email", Email)]],
+    "view-pending-orders" : [[("courier_warehouse", Identifier)]],
 
- "add-purchase" : [[("fare", RealGEZ)],
-                   [("customer", Email)],
-                   [("card", Card)],
-                   [("zip_code", AlphaNumeric)],
-                   [("street", StringM)],
-                   [("street_number", AlphaNumeric)],
-                   [("product", AlphaNumeric)],
-                   [("quantity", IntGZ)]],
+    ####
 
- "add-rating" : [[("product", AlphaNumeric)],
-                 [("customer", Email)],
-                 [("stars", Stars)]],
+    "register-customer" : [[("name", StringS)],
+                        [("mail", Email)]],
+    
+    "search-products" : [[("product_name", StringS)]],
 
- "add-refund" : [[("assigned_delivery", AlphaNumeric)],
-                 [("product", AlphaNumeric)],
-                 [("quantity", IntGZ)]],
+    "make-order" : [[("customer", RealGEZ)],
+                    [("product", Email)],
+                    [("quantity", Card)],
+                    [("date", Card)],
+                    [("zip_code", AlphaNumeric)],
+                    [("address", AlphaNumeric)]],
 
- "delete-purchase" : [[("purchase", Identifier)]],
+    "check-order" : [[("order_id", AlphaNumeric)]],
 
- "search-products" : [[("product_name", StringS)]],
-
- "view-order" : [[("purchase_id", Identifier)]],
-
- "view-refund" : [[("refund_id", Identifier)]],
-
- "update-product" : [[("code", AlphaNumeric)],
-                     [("description", StringL)]],
-
- "take-purchase-delivery" : [[("courier", StringS)],
-                             [("purchase", Identifier)],
-                             [("deliverycode", AlphaNumeric)]],
- 
- "update-assigned-delivery" : [[("deliverycode", AlphaNumeric)],
-                               [("start", Timestamp), ("lost", Timestamp), ("end", Timestamp)]],
- 
- "update-refund-request" : [[("refund", Identifier)],
-                            [("courier", StringS), ("refund_start", Timestamp), ("refund_end", Timestamp)]],
-
- "view-statistic" : [[("supplier", StringS)]],
- 
- "view-available-purchase" : []
+    "review-order" : [[("customer", AlphaNumeric)],
+                    [("product", Email)],
+                    [("stars", Stars)],
+                    [("comment", Email)]]
+    
 }
 
 
-apis = {"courier" : ["take-purchase-delivery", "update-assigned-delivery", "update-refund-request", "view-available-purchase"],
-       "customer" : ["add-customer", "add-address", "search-products", "add-card", "add-purchase", "add-rating", "add-refund-request", "delete-purchase", "view-order", "view-refund"],
-       "supplier" : ["add-product", "add-restock", "add-supplier", "update-product", "view-statistic"]}
+apis = { "seller" : ["register-seller", "add-product", "update-product"],
+        "courier" : ["register-courier", "take-delivery", "update-delivery-status", "view-pending-orders"],
+        "customer" : ["register-customer", "search-products", "make-order", "check-order", "review-order"]}
 
-ports = [("courier", 42070), ("customer", 42069), ("supplier", 42071)]
+ports = [("seller", 42071), ("courier", 42070), ("customer", 42069)]

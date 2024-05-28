@@ -1,0 +1,49 @@
+###   #   #   #   #   #  #   #      #   #
+SELLER tests
+
+
+register-seller name AziendaMIAO piva uuhhuuhhuuh description questa_azienda_vende_croccantini_per_gatti mail miaomiao@gmail.com 
+
+add-product name croccantini_buoni description gnam_gnam price_tag 4.99 seller 1 warehouse 2
+add-product name croccantini_pessimi description eww_che_schifo! price_tag 6.49 seller 1 warehouse 3
+
+update-product id 3 description nuova_descrizione_piu_bella_di_prima
+
+
+
+###   #   #   #   #   #  #   #      #   #
+COURIER tests
+
+
+register-courier name Gianfilippo mail gfilippo@gmail.com warehouse 2
+register-courier name Benito mail benny@gmail.com warehouse 3
+
+take-delivery orderId 2 courier 1 date 01/06/2024 status shipped
+take-delivery orderId 3 courier 2 date 01/06/2024 status not_shipped
+
+update-delivery-status id 1 status delivered
+update-delivery-status id 2 status shipped
+
+view-pending-orders courier_warehouse 2
+
+
+
+###   #   #   #   #   #  #   #      #   #
+CUSTOMER tests
+
+
+register-costumer name Bartolomeo mail baba@yahoo.com 
+register-costumer name Mimmolo mail mimmo07campione@gmail.com 
+
+search-products product_name croccant
+search-products product_name 
+
+make-order customer 2 product 1 quantity 27 date 27/05/2024 zip_code 00016 address Via_miao_miao_21
+make-order customer 2 product 2 quantity 3 date 26/05/2024 zip_code 00015 address Piazza_puzzolosa_4
+
+check-order order_id 1
+
+review-order customer 2 product 1 stars 5 comment WOOOW_NO_VABBE_TROPPO_BUONI
+review-order customer 2 product 2 stars 2 comment eww_che_schifo
+
+

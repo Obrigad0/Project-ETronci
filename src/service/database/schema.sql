@@ -49,7 +49,6 @@ CREATE TABLE IF NOT EXISTS  Warehouse (
     address String NOT NULL
 );
 
--- ex Ordine
 CREATE TABLE IF NOT EXISTS OrderedProduct (
     id SERIAL PRIMARY KEY,
     customer INTEGER NOT NULL,
@@ -66,7 +65,7 @@ CREATE TABLE IF NOT EXISTS OrderedProduct (
 
 CREATE TABLE IF NOT EXISTS Delivery (
     id SERIAL PRIMARY KEY,
-    orderId INTEGER NOT NULL, -- cambiato il nome, prima era order
+    orderId INTEGER NOT NULL,
     courier INTEGER NOT NULL,
     date TIMESTAMP NOT NULL,
     status StatusOrder DEFAULT 'not shipped',
