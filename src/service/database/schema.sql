@@ -22,6 +22,13 @@ CREATE TABLE IF NOT EXISTS Seller (
 
 );
 
+CREATE TABLE IF NOT EXISTS  Warehouse (
+    id SERIAL PRIMARY KEY,
+    name String NOT NULL,
+    address String NOT NULL
+);
+
+
 CREATE TABLE IF NOT EXISTS Courier(
     id SERIAL PRIMARY KEY ,
     name String NOT NULL,
@@ -38,16 +45,11 @@ CREATE TABLE IF NOT EXISTS Product (
     price_tag FLOAT NOT NULL,
     seller INTEGER NOT NULL,
     warehouse INTEGER NOT NULL,
-
     FOREIGN KEY (seller) REFERENCES Seller(id) ON DELETE CASCADE,
+    UNIQUE(name, seller),
     FOREIGN KEY (warehouse) REFERENCES Warehouse(id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS  Warehouse (
-    id SERIAL PRIMARY KEY,
-    name String NOT NULL,
-    address String NOT NULL
-);
 
 -- ex Ordine
 CREATE TABLE IF NOT EXISTS OrderedProduct (
@@ -82,8 +84,8 @@ CREATE TABLE IF NOT EXISTS Review (
     product INTEGER NOT NULL,
     stars INTEGER NOT NULL,
     comment TEXT,
-
     FOREIGN KEY (product) REFERENCES Product(id) ON DELETE CASCADE,
     FOREIGN KEY (customer) REFERENCES Customer(id) ON DELETE CASCADE,
+    UNIQUE(customer, product),
     check(stars >= 1 AND stars <= 5)
 );

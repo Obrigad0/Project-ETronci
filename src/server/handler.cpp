@@ -47,9 +47,7 @@ bool Handler::sendToFunctions(int idClient, std::string msg){
     std::cout << "\n" << redis_cmd << std::endl;
 
     reply = RedisCommand(c2r, redis_cmd.c_str());
-    std::cout << "ho creato reply, ed eccolo:" << reply <<std::endl;
     assertReply(c2r, reply);
-    std::cout << "dopo la chiamata redis" << std::endl;
     return true;
 
 }

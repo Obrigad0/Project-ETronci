@@ -174,13 +174,10 @@ void Server::run(){
 
 
             response = handler->readFromFunctions(&respTocli, &idClient);
-            std::cout << "qui dopo l'handler" << std::endl;
 
 
 
             if(response){
-                std::cout << "c'e' una risposta del client la gestisco" << std::endl;
-
                 sendClientResponse(idClient, respTocli);
             }
         }

@@ -7,7 +7,7 @@ PORT = 42071  # La porta del server
 
 # Definisci una richiesta di esempio
 
-request_string = "add-product id 23 name godos description didit price_tag 69 seller 1 warehouse 1"
+request_string = "add-product name l1231dqdlazio!! description prdotto##molto##molto##bello! price_tag 69 seller 1 warehouse 1"
 #request_string = "add-product code banana name yoyo description ahahahaha##baba price 341.3243"
 
 if __name__ == "__main__":

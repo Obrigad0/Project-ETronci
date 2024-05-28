@@ -61,17 +61,17 @@ set_current_root src
 
 run_main service/logDatabase/bin
 
-#printf "############## Customer... ##############\n\n"
+printf "############## Customer... ##############\n\n"
 
-#set_current_root src/customer
+set_current_root src/customer
 
-#run_main customer-main/bin
+run_main customer-main/bin
 
-#run_main customer-functions/check-order/bin
-#run_main customer-functions/make-order/bin
-#run_main customer-functions/register-customer/bin
-#run_main customer-functions/review-order/bin
-#run_main customer-functions/search-products/bin
+run_main customer-functions/check-order/bin
+run_main customer-functions/make-order/bin
+run_main customer-functions/register-customer/bin
+run_main customer-functions/review-order/bin
+run_main customer-functions/search-products/bin
 
 
 printf "############## Seller... ##############\n\n"
@@ -84,15 +84,15 @@ run_main seller-functions/add-product/bin
 run_main seller-functions/register-seller/bin
 run_main seller-functions/update-product/bin
 
-#printf "############## Courier... ##############\n\n"
+printf "############## Courier... ##############\n\n"
 
-#set_current_root src/courier
+set_current_root src/courier
 
-#run_main courier-main/bin
+run_main courier-main/bin
 
-#run_main courier-functions/register-courier/bin
-#run_main courier-functions/take-delivery/bin
-#run_main courier-functions/update-delivery-status/bin
-#run_main courier-functions/view-pending-orders/bin
+run_main courier-functions/register-courier/bin
+run_main courier-functions/take-delivery/bin
+run_main courier-functions/update-delivery-status/bin
+run_main courier-functions/view-pending-orders/bin
 
 printf "\n\n\n########## Script 'Run' Completato! ###########\n\n\n\n"
