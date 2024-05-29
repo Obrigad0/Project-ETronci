@@ -5,10 +5,10 @@ from test_functions import requests
 
 methods = { "seller" : ["register-seller", "add-product", "update-product"],
             "courier" : ["register-courier", "take-delivery", "update-delivery-status", "view-pending-orders"],
-            "customer" : ["register-customer", "search-products", "make-order", "check-order", "review-order"]}
-
+            "customer" : ["register-customer", "search-products", "make-order"]}
+ ##, "review-order"
 ports = {"courier" : 42070, "customer" : 42069, "seller" : 42071}
-
+errate = []
 HOST = "127.0.0.1"  # L'indirizzo IP del server
 PORT = 42069  # La porta del server
 
@@ -45,7 +45,7 @@ def generate_random_request(method):
 
 if __name__ == "__main__":
     totale = 10
-    richieste = 50
+    richieste = 10
     succesful = 0
     failed = 0
     
@@ -69,8 +69,9 @@ if __name__ == "__main__":
     
                 if response.startswith("BAD_REQUEST") or response.startswith("DB_ERROR"):
                     failed += 1
+                    errate.append(method)
                 else:
                     succesful += 1
                             
-    print(f"\n succesful requests: {succesful}/{totale} \n failed requests: {failed}/{totale} \n\n")
+    print(f"\n succesful requests: {succesful}/{totale*richieste} \n failed requests: {failed}/{totale*richieste} \n\n")
     

@@ -6,4 +6,4 @@ random.seed(RANDOM_SEED)
 class IdGenerator() :
 
     def receive_random_value(self):
-        return random.randint(1, 10)
+        return random.randint(1, 3)

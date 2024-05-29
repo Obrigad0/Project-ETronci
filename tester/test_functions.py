@@ -36,7 +36,7 @@ requests = {
                         [("mail", MailGenerator)],
                         [("warehouse", IdGenerator)]],
     
-    "take-delivery" : [[("orderId", IdGenerator)],
+    "take-delivery" : [[("orderid", IdGenerator)],
                         [("courier", IdGenerator)],
                         [("status", TakeStatus)]],
     

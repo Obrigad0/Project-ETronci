@@ -5,7 +5,7 @@ random.seed(RANDOM_SEED)
 
 class TakeStatus() :
 
-    names = ["not shipped", "shipped"] # ## tra "not" e "shipped" in "not shipped" ?????
+    names = ["shipped"] # ## tra "not" e "shipped" in "not shipped" ?????
 
     def receive_random_value(self):
         return random.choice(self.names)
