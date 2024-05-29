@@ -2,7 +2,6 @@ from random_parameters.person_name import PersonName
 from random_parameters.seller_name import SellerName
 from random_parameters.product_name import ProductName
 
-from random_parameters.take_status import TakeStatus
 from random_parameters.update_status import UpdateStatus
 
 from random_parameters.description_generator import DescriptionGenerator
@@ -37,8 +36,7 @@ requests = {
                         [("warehouse", IdGenerator)]],
     
     "take-delivery" : [[("orderid", IdGenerator)],
-                        [("courier", IdGenerator)],
-                        [("status", TakeStatus)]],
+                        [("courier", IdGenerator)]],
     
     "update-delivery-status" : [[("id", IdGenerator)],
                                 [("status", UpdateStatus)]],

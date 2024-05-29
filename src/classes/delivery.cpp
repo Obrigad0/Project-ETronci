@@ -49,6 +49,7 @@ Delivery* Delivery::from_stream(redisReply* reply, int stream_num, int msg_num) 
 
     char courier[PRMTRSIZE];
     char orderid[PRMTRSIZE];
+    // anche se inutilizzato, questo parametro è importante per evitare la collisione con il secondo costruttore Delivery
     char status[PRMTRSIZE];
 
     // itero attraverso i campi del messaggio nel flusso Redis. Ogni campo è rappresentato da una coppia chiave-valore.
@@ -56,10 +57,7 @@ Delivery* Delivery::from_stream(redisReply* reply, int stream_num, int msg_num) 
         ReadStreamMsgVal(reply, stream_num, msg_num, field, key);
         ReadStreamMsgVal(reply, stream_num, msg_num, field + 1, value);
                     
-        if (!strcmp(key, "status")) {
-            sprintf(status, "%s", value); //cambiato id con status
-
-        } else if (!strcmp(key, "orderid")) {
+        if (!strcmp(key, "orderid")) {
             sprintf(orderid, "%s", value);
 
         }else if (!strcmp(key, "courier")) {
@@ -105,10 +103,6 @@ std::string Delivery::to_insert_query() {
     //std::string str_id = id;
     std::string str_courier = courier;
     std::string str_order = orderid;
-
-    //auto current_timestamp = std::chrono::system_clock::now();
-    //std::time_t current_time = std::chrono::system_clock::to_time_t(current_timestamp);
-    //std::string current_date = std::ctime(&current_time); // solo ctime(&current_time);???? TO DO
 
     std::string current_date = get_current_timestamp_as_string();
 
