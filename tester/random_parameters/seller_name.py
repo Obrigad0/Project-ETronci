@@ -5,7 +5,7 @@ random.seed(RANDOM_SEED)
 
 class SellerName() :
 
-    names = ["superIndustria", "banca italia", "miao", "monsterInc", "nonloso", "parlamento", "amazon", "ubik", "aziendaX", "aziendaWY"]
+    names = ["superIndustria", "banca##italia", "miao", "monsterInc", "nonloso", "SSLazio", "amazon", "ubik", "aziendaX", "aziendaWY"]
 
     def receive_random_value(self):
         return random.choice(self.names)
