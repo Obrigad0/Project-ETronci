@@ -16,21 +16,22 @@ Per informazioni specifiche sulla struttura del progetto, diagrammi esplicativi 
 ---
 # Compilare ed eseguire il progetto
 Per compilare ed eseguire il progetto è necessario seguire questi step:
-#### 1- Compilazione
+#### 1- Clonare la repository
 Per clonare la repository, aprire il terminale e nella directory scelta eseguire il comando:
 ```sh
 git clone https://github.com/Obrigad0/Project-ETronci.git
 ```
+#### 2- Compilazione
 Per compilare il programma e il database del progetto è sufficiente eseguire il seguente script:
 ```sh
 sh compile.sh
 ```
-#### 2- Esecuzione
+#### 3- Esecuzione
 Se la compilazione è andata a buon fine, per eseguire il progetto appena compilato, eseguire il seguente script:
 ```sh
 sh run.sh
 ```
-#### 3- Terminazione
+#### 4- Terminazione
 Se si vuole terminare tutti i processi del progetto, basta eseguire il seguente comando:
 ```sh
 sh run.sh --kill
