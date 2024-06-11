@@ -11,27 +11,22 @@ Come da specifica, il nostro progetto è il back-end di un sito e-commerce, e in
 - monitor per \[...] proprietà non funzionali.
 ---
 ## Relazione
-Per informazioni specifiche sulla struttura del progetto, diagrammi esplicativi per il database e descrizioni dei monitors, vi preghiamo di consultare la \[relazione].
+Per informazioni specifiche sulla struttura del progetto, diagrammi esplicativi per il database e descrizioni dei monitors, vi preghiamo di consultare la [[relazione/Relazione progetto software|relazione]].
 
 ---
 # Compilare ed eseguire il progetto
 Per compilare ed eseguire il progetto è necessario seguire questi step:
-#### 1- Clonare la repository
-Per clonare la repository, aprire il terminale e nella directory scelta eseguire il comando:
-```sh
-git clone https://github.com/Obrigad0/Project-ETronci.git
-```
-#### 2- Compilazione
+#### 1- Compilazione
 Per compilare il programma e il database del progetto è sufficiente eseguire il seguente script:
 ```sh
 sh compile.sh
 ```
-#### 3- Esecuzione
+#### 2- Esecuzione
 Se la compilazione è andata a buon fine, per eseguire il progetto appena compilato, eseguire il seguente script:
 ```sh
 sh run.sh
 ```
-#### 4- Terminazione
+#### 3- Terminazione
 Se si vuole terminare tutti i processi del progetto, basta eseguire il seguente comando:
 ```sh
 sh run.sh --kill
