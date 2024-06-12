@@ -7,8 +7,8 @@ Come da specifica, il nostro progetto è il back-end di un sito e-commerce, e in
 - un server al quale i fornitori si connettono per interagire con il sistema;
 - un server al quale i trasportatori si connettono per interagire con il sistema;
 - un database per i dati ed i log;
-- monitor per \[...] proprietà funzionali;
-- monitor per \[...] proprietà non funzionali.
+- monitor per 3 proprietà funzionali;
+- monitor per 2 proprietà non funzionali.
 ---
 ## Relazione
 Per informazioni specifiche sulla struttura del progetto, diagrammi esplicativi per il database e descrizioni dei monitors, vi preghiamo di consultare la [[relazione/Relazione progetto software|relazione]].
