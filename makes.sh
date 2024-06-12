@@ -90,6 +90,12 @@ set_current_root src
 
 make_folder service/logDatabase
 
+printf "############# Non-functional req Monitor #########\n\n"
+
+set_current_root src
+
+run_main req-monitor
+
 printf "############## Customer ##############\n\n"
 
 set_current_root src/customer
