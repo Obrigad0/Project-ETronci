@@ -61,12 +61,6 @@ set_current_root src
 
 run_main service/logDatabase/bin
 
-printf "\n\n########### Non-functional req Monitor #########\n\n"
-
-set_current_root src
-
-run_main req-monitor/bin
-
 printf "############## Customer... ##############\n\n"
 
 set_current_root src/customer
