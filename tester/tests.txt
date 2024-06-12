@@ -16,7 +16,7 @@ COURIER tests
 
 
 register-courier name Gianfilippo mail gfilippo@gmail.com warehouse 2 //FUNZIONA
-register-courier name Benito mail benny@gmail.com warehouse 3 //FUNZIONA
+register-courier name giovanni mail giovanni@gmail.com warehouse 3 //FUNZIONA
 
 take-delivery orderid 2 courier 2 status shipped //FUNZIONA
 
@@ -37,9 +37,6 @@ register-customer name Mimmolo mail mimmo07campione@gmail.com  //FUNZIONA
 search-products product_name croccant //FUNZIONA
 
 make-order customer 2 product 1 quantity 27  zip_code 00016 address Via_miao_miao_21 //Funziona
-
-
-check-order order_id 1  //pisciata
 
 review-order customer 2 product 1 stars 5 comment WOOOW_NO_VABBE_TROPPO_BUONI //FUNZIONA
 
