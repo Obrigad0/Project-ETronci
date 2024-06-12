@@ -42,8 +42,8 @@ def generate_random_request(client):
 
 
 if __name__ == "__main__":
-    totale = 10
-    richieste = 10
+    totale = 50
+    richieste = 5
     succesful = 0
     failed = 0
     
