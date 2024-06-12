@@ -21,10 +21,8 @@ request_string = "check-order order_id 2"
 def generate_random_argument(parameter_class):
     return parameter_class().receive_random_value()
 
-def generate_random_request(method):
-    method_name = random.choice(methods[method])
-    
-    PORT = ports[method]
+def generate_random_request(client):
+    method_name = random.choice(methods[client])
 
     request_args = []
     for arg_set in requests[method_name]:
@@ -51,14 +49,14 @@ if __name__ == "__main__":
     
     for _ in range(totale):
         
-        method = random.choice(list(methods.keys()))
-        PORT = ports[method]
+        client = random.choice(list(methods.keys()))
+        PORT = ports[client]
         
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect((HOST, PORT))
   
             for _ in range(richieste):
-                request_string = generate_random_request(method)
+                request_string = generate_random_request(client)
                 print(f"Inviando la richiesta: {request_string}")
     
                 s.send(request_string.encode()) # Invia la richiesta al server
@@ -69,7 +67,7 @@ if __name__ == "__main__":
     
                 if response.startswith("BAD_REQUEST") or response.startswith("DB_ERROR"):
                     failed += 1
-                    errate.append(method)
+                    errate.append(request_string)
                 else:
                     succesful += 1
                             
