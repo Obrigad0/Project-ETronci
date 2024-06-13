@@ -1,3 +1,4 @@
+Progetto per il corso di Ingegneria del Software del Prof. Enrico Tronci 2023/2024, svolto da *Flavio Corsetti* (1997818), *Nicolas Lattanzi* (1992502) e *Beatrice Lettieri* (1945750).
 # Specifiche progetto
 Come da specifica, il nostro progetto è il back-end di un sito e-commerce, e include diverse componenti:
 - un modello (test generator) per i clienti (customers), cioè coloro che acquistano i prodotti in vendita;
