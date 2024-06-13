@@ -12,7 +12,7 @@ Come da specifica, il nostro progetto è il back-end di un sito e-commerce, e in
 - monitor per 2 proprietà non funzionali.
 ---
 ## Relazione
-Per informazioni specifiche sulla struttura del progetto, diagrammi esplicativi per il database e descrizioni dei monitors, vi preghiamo di consultare la [[relazione/Relazione progetto software|relazione]].
+Per informazioni specifiche sulla struttura del progetto, diagrammi esplicativi per il database e descrizioni dei monitors, vi preghiamo di consultare la [relazione](<https://raw.githubusercontent.com/Obrigad0/Project-ETronci/main/relazione/relazione.pdf>).
 
 ---
 # Compilare ed eseguire il progetto
