@@ -1,0 +1,43 @@
+###   #   #   #   #   #  #   #      #   #
+SELLER tests
+
+
+register-seller name Azienda##MIAO piva 12345678915 description questa##azienda##vende##croccantini##per##gatti mail miaomiao@gmail.com 
+
+add-product name croccantini##buoni description gnam##gnam price_tag 4.99 seller 1 warehouse 2 
+add-product name croccantini##pessimi description eww##che##schifo! price_tag 6.49 seller 1 warehouse 2 
+
+update-product id 3 description nuova##descrizione##piu##bella##di##prima 
+
+
+
+###   #   #   #   #   #  #   #      #   #
+COURIER tests
+
+
+register-courier name Gianfilippo mail gfilippo@gmail.com warehouse 2 
+register-courier name giovanni mail giovanni@gmail.com warehouse 3 
+
+take-delivery orderid 2 courier 2 status shipped 
+
+update-delivery-status id 1 status end 
+update-delivery-status id 2 status start 
+
+view-pending-orders courier_warehouse 2
+
+
+
+###   #   #   #   #   #  #   #      #   #
+CUSTOMER tests
+
+
+register-customer name Bartolomeo mail baba@yahoo.com  
+register-customer name Mimmolo mail mimmo07campione@gmail.com 
+
+search-products product_name croccant 
+
+make-order customer 2 product 1 quantity 27  zip_code 00016 address Via_miao_miao_21 
+
+review-order customer 2 product 1 stars 5 comment WOOOW_NO_VABBE_TROPPO_BUONI 
+
+
